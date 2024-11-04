@@ -17,6 +17,14 @@
         </div>
 
         <div class="form-group form-floating mb-3">
+            <input type="text" class="form-control" name="whatsapp_number" value="{{ old('whatsapp_number') }}" placeholder="6281100000000" required="required" autofocus>
+            <label for="floatingWhatsappNumber">Whatsapp Number</label>
+            @if ($errors->has('whatsapp_number'))
+                <span class="text-danger text-left">{{ $errors->first('whatsapp_number') }}</span>
+            @endif
+        </div>
+
+        <div class="form-group form-floating mb-3">
             <input type="text" class="form-control" name="username" value="{{ old('username') }}" placeholder="Username" required="required" autofocus>
             <label for="floatingName">Username</label>
             @if ($errors->has('username'))
