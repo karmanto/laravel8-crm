@@ -11,7 +11,7 @@ class ChatbotWhatsapp extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'user_id', 'qrcode', 'is_connect', 'is_active', 'whatsapp_number'
+        'user_id', 'qrcode', 'is_connect', 'is_active', 'whatsapp_number', 'whatsapp_number_linked'
     ];
 
     public function user()

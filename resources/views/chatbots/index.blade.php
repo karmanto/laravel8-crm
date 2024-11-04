@@ -25,6 +25,7 @@
                     <th>Status Aktif</th>
                     <th>QR Code</th>
                     <th>Nomor WhatsApp</th> 
+                    <th>Nomor Whatsapp Tersambung</th>
                     <th>Status Koneksi</th> 
                     <th>Aksi</th>
                 </tr>
@@ -48,6 +49,7 @@
                             @endif
                         </td>
                         <td>{{ $chatbot->whatsapp_number ?? 'Tidak tersedia' }}</td>
+                        <td>{{ $chatbot->whatsapp_number_linked ?? 'Tidak tersedia' }}</td>
                         <td>
                             @if ($chatbot->is_connect)
                                 <span class="badge bg-success">Terkoneksi</span>
@@ -77,6 +79,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div style="margin: 10px; font-weight: bold;">Pastikan nomor whatsapp yang digunakan tidak dipakai untuk whatsapp bot lain</div>
+                <div style="margin: 10px;">Jika Popup ini tidak hilang atau Nomor Whatsapp Tersambung masih tidak tersedia saat status perangkat sudah tertaut, itu berarti nomor whatsapp yang anda tautkan tidak sesuai.</div>
                 <div class="modal-body mx-auto text-center" style="align-items: center;" id="qrCodeContainer">
                 </div>
             </div>
@@ -148,7 +151,13 @@
                             row.querySelector('td:nth-child(4)').innerHTML = `<span class="text-muted">Tidak tersedia</span>`;
                         }
 
-                        row.querySelector('td:nth-child(5)').innerHTML = chatbot.is_connect
+                        if (chatbot.whatsapp_number_linked) {
+                            row.querySelector('td:nth-child(5)').innerHTML = `<span class="text-muted">${chatbot.whatsapp_number_linked}</span>`;
+                        } else {
+                            row.querySelector('td:nth-child(5)').innerHTML = `<span class="text-muted">Tidak tersedia</span>`;
+                        }
+
+                        row.querySelector('td:nth-child(6)').innerHTML = chatbot.is_connect
                             ? '<span class="badge bg-success">Terkoneksi</span>'
                             : '<span class="badge bg-danger">Tidak Terkoneksi</span>';
                     });

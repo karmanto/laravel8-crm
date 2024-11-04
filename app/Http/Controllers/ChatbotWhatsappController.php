@@ -23,11 +23,13 @@ class ChatbotWhatsappController extends Controller
     {
         $request->validate([
             'is_active' => 'required|boolean',
+            'whatsapp_number' => 'required|regex:/^[0-9]+$/|unique:chatbot_whatsapps,whatsapp_number',
         ]);
 
         ChatbotWhatsapp::create([
             'user_id' => auth()->id(),
             'is_active' => $request->is_active,
+            'whatsapp_number' => $request->whatsapp_number,
         ]);
 
         return redirect()->route('chatbots.index')->with('success', 'Chatbot berhasil ditambahkan.');
@@ -46,10 +48,12 @@ class ChatbotWhatsappController extends Controller
 
         $request->validate([
             'is_active' => 'required|boolean',
+            'whatsapp_number' => 'required|regex:/^[0-9]+$/|unique:chatbot_whatsapps,whatsapp_number,' . $chatbot->id,
         ]);
 
         $chatbot->update([
             'is_active' => $request->is_active,
+            'whatsapp_number' => $request->whatsapp_number,
         ]);
 
         return redirect()->route('chatbots.index')->with('success', 'Chatbot WhatsApp berhasil diperbarui.');
@@ -98,6 +102,7 @@ class ChatbotWhatsappController extends Controller
                 'qrcode' => $chatbot->qrcode,
                 'is_connect' => $chatbot->is_connect,
                 'whatsapp_number' => $chatbot->whatsapp_number,
+                'whatsapp_number_linked' => $chatbot->whatsapp_number_linked,
             ];
         });
 
