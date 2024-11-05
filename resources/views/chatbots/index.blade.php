@@ -78,7 +78,6 @@
                     <h5 class="modal-title" id="qrModalLabel">QR Code</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div style="margin: 10px; font-weight: bold;">Pastikan nomor whatsapp yang digunakan tidak dipakai untuk whatsapp bot lain</div>
                 <div style="margin: 10px;">Jika Popup ini tidak hilang atau Nomor Whatsapp Tersambung masih tidak tersedia saat status perangkat sudah tertaut, itu berarti nomor whatsapp yang anda tautkan tidak sesuai.</div>
                 <div class="modal-body mx-auto text-center" style="align-items: center;" id="qrCodeContainer">
                 </div>
