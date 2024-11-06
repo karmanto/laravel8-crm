@@ -10,14 +10,14 @@ class CreateChatbotSchedulesTable extends Migration
     {
         Schema::create('chatbot_schedules', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
+            $table->foreignId('document_id')->nullable();
             $table->string('name', 255);
             $table->text('description')->nullable();
             $table->text('message');
-            $table->foreignId('document_id')->nullable()->constrained('documents')->onDelete('set null');
             $table->text('trigger_message');
             $table->integer('trigger_from')->comment('user,customer');
             $table->integer('send_after')->comment('after second');
-            $table->foreignId('user_id')->constrained()->onDelete('restrict');
             $table->timestamps();
             $table->softDeletes();
         });

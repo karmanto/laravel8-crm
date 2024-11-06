@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ChatbotWhatsapp extends Model
+class ChatbotSchedule extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'user_id', 'qrcode', 'is_connect', 'is_active', 'whatsapp_number', 'whatsapp_number_linked'
+        'name', 'description', 'message', 'document_id', 'trigger_message', 'trigger_from', 'send_after', 'user_id'
     ];
 
     public function user()
@@ -21,6 +21,6 @@ class ChatbotWhatsapp extends Model
 
     public function customers()
     {
-        return $this->hasMany(Customer::class, 'chatbot_whatsapp_id');
+        return $this->hasMany(Customer::class, 'chatbot_schedule_id');
     }
 }

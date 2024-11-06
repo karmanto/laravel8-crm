@@ -33,6 +33,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
     Route::group(['middleware' => ['auth']], function() {
         Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
+
         Route::get('/chatbots', 'ChatbotWhatsappController@index')->name('chatbots.index');
         Route::get('/chatbots/create', 'ChatbotWhatsappController@create')->name('chatbots.create');
         Route::post('/chatbots', 'ChatbotWhatsappController@store')->name('chatbots.store');
@@ -41,5 +42,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::delete('/chatbots/{chatbot}', 'ChatbotWhatsappController@destroy')->name('chatbots.destroy');
         Route::get('/chatbots/{id}/show-qr', 'ChatbotWhatsappController@showQr')->name('chatbots.show-qrcode'); 
         Route::get('/chatbots/check-all-status', 'ChatbotWhatsappController@checkAllStatus')->name('chatbots.check-all-status');
+
+        Route::get('/customers', 'CustomerController@index')->name('customers.index');
+        Route::get('/customers/create', 'CustomerController@create')->name('customers.create');
+        Route::post('/customers', 'CustomerController@store')->name('customers.store');
+        Route::get('/customers/{customer}/edit', 'CustomerController@edit')->name('customers.edit');
+        Route::put('/customers/{customer}', 'CustomerController@update')->name('customers.update');
+        Route::delete('/customers/{customer}', 'CustomerController@destroy')->name('customers.destroy');
     });
 });

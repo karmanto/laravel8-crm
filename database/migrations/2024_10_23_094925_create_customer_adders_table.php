@@ -10,9 +10,9 @@ class CreateCustomerAddersTable extends Migration
     {
         Schema::create('customer_adders', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
             $table->text('trigger_message');
             $table->integer('trigger_from')->comment('user,customer');
-            $table->foreignId('user_id')->constrained()->onDelete('restrict');
             $table->timestamps();
             $table->softDeletes();
         });

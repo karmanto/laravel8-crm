@@ -65,6 +65,10 @@ class ChatbotWhatsappController extends Controller
 
         $this->authorize('delete', $chatbot);
 
+        if ($chatbot->customers()->exists()) {
+            return redirect()->route('chatbots.index')->with('error', 'Tidak bisa di delete, karena ada data customer yang terhubung dengan data ini.');
+        }
+
         $chatbot->qrcode = null;
         $chatbot->whatsapp_number = null;
         $chatbot->is_connect = false;

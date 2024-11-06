@@ -21,7 +21,6 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Status Aktif</th>
                     <th>QR Code</th>
                     <th>Nomor WhatsApp</th> 
@@ -33,7 +32,6 @@
             <tbody>
                 @foreach ($chatbots as $chatbot)
                     <tr id="chatbot-{{ $chatbot->id }}">
-                        <td>{{ $chatbot->id }}</td>
                         <td>
                             @if ($chatbot->is_active)
                                 <span class="badge bg-success">Aktif</span>
@@ -75,7 +73,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="qrModalLabel">QR Code</h5>
+                    <h5 class="modal-title" id="qrModalLabel">QR Code : <span id="whatsappNumber"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div style="margin: 10px;">Jika Popup ini tidak hilang atau Nomor Whatsapp Tersambung masih tidak tersedia saat status perangkat sudah tertaut, itu berarti nomor whatsapp yang anda tautkan tidak sesuai.</div>
@@ -106,7 +104,9 @@
                 for (const chatbot of dataChatbot) {
                     if (chatbot.id == currentChatbotId) {
                         const qrCodeContainer = document.getElementById('qrCodeContainer');
+                        const whatsappNumberContainer = document.getElementById('whatsappNumber');
                         qrCodeContainer.innerHTML = "";
+                        whatsappNumberContainer.innerHTML = chatbot.whatsapp_number;
                         if (chatbot.qrcode) {
                             new QRCode(qrCodeContainer, {
                                 text: chatbot.qrcode,
@@ -139,24 +139,24 @@
                     data.forEach(chatbot => {
                         const row = document.getElementById(`chatbot-${chatbot.id}`);
                         if (chatbot.qrcode) {
-                            row.querySelector('td:nth-child(3)').innerHTML = `<button onclick="showQr('${chatbot.id}')" class="btn btn-sm btn-secondary">Tampilkan QR Code</button>`;
+                            row.querySelector('td:nth-child(2)').innerHTML = `<button onclick="showQr('${chatbot.id}')" class="btn btn-sm btn-secondary">Tampilkan QR Code</button>`;
+                        } else {
+                            row.querySelector('td:nth-child(2)').innerHTML = `<span class="text-muted">Tidak tersedia</span>`;
+                        }
+
+                        if (chatbot.whatsapp_number) {
+                            row.querySelector('td:nth-child(3)').innerHTML = `<span>${chatbot.whatsapp_number}</span>`;
                         } else {
                             row.querySelector('td:nth-child(3)').innerHTML = `<span class="text-muted">Tidak tersedia</span>`;
                         }
 
-                        if (chatbot.whatsapp_number) {
-                            row.querySelector('td:nth-child(4)').innerHTML = `<span class="text-muted">${chatbot.whatsapp_number}</span>`;
+                        if (chatbot.whatsapp_number_linked) {
+                            row.querySelector('td:nth-child(4)').innerHTML = `<span>${chatbot.whatsapp_number_linked}</span>`;
                         } else {
                             row.querySelector('td:nth-child(4)').innerHTML = `<span class="text-muted">Tidak tersedia</span>`;
                         }
 
-                        if (chatbot.whatsapp_number_linked) {
-                            row.querySelector('td:nth-child(5)').innerHTML = `<span class="text-muted">${chatbot.whatsapp_number_linked}</span>`;
-                        } else {
-                            row.querySelector('td:nth-child(5)').innerHTML = `<span class="text-muted">Tidak tersedia</span>`;
-                        }
-
-                        row.querySelector('td:nth-child(6)').innerHTML = chatbot.is_connect
+                        row.querySelector('td:nth-child(5)').innerHTML = chatbot.is_connect
                             ? '<span class="badge bg-success">Terkoneksi</span>'
                             : '<span class="badge bg-danger">Tidak Terkoneksi</span>';
                     });

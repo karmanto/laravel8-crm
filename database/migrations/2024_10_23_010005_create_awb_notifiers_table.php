@@ -10,12 +10,12 @@ class CreateAwbNotifiersTable extends Migration
     {
         Schema::create('awb_notifiers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
+            $table->foreignId('document_id')->nullable();
             $table->string('name', 255);
             $table->text('description')->nullable();
             $table->text('message');
-            $table->foreignId('document_id')->nullable()->constrained('documents')->onDelete('set null');
             $table->text('trigger_awb_status')->comment('trigger from recent status of awb');
-            $table->foreignId('user_id')->constrained()->onDelete('restrict');
             $table->timestamps();
             $table->softDeletes();
         });
