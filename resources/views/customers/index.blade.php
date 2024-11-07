@@ -39,6 +39,7 @@
         <div class="row mb-3">
             <div class="col">
                 <a href="{{ route('customers.create') }}" class="btn btn-primary mb-3">Add New Customer</a>
+                <a href="{{ route('customerAdders.index') }}" class="btn btn-primary mb-3 mx-4">Ke Halaman Customer Adder</a>
             </div>
         </div>
     </form>

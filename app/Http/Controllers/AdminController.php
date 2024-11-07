@@ -23,4 +23,20 @@ class AdminController extends Controller
 
         return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk mengubah status.');
     }
+
+    public function updateChatbotWhatsappCount(Request $request, User $user)
+    {
+        if (auth()->user()->is_admin) {
+            $request->validate([
+                'chatbot_whatsapp_count' => 'required|integer|min:0',
+            ]);
+    
+            $user->chatbot_whatsapp_count = $request->input('chatbot_whatsapp_count');
+            $user->save();
+    
+            return redirect()->route('admin.users.index')->with('success', 'Jumlah Chatbot WhatsApp berhasil diperbarui.');
+        }
+
+        return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk mengubah jumlah chatbot whatsapp.');
+    }
 }

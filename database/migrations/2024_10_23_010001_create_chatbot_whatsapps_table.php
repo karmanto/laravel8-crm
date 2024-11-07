@@ -10,7 +10,7 @@ class CreateChatbotWhatsappsTable extends Migration
     {
         Schema::create('chatbot_whatsapps', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->constrained()->onDelete('restrict');
             $table->string('qrcode', 255)->nullable();
             $table->boolean('is_connect')->default(false);
             $table->boolean('is_active')->default(false);

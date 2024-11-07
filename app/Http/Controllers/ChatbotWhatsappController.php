@@ -26,6 +26,14 @@ class ChatbotWhatsappController extends Controller
             'whatsapp_number' => 'required|regex:/^[0-9]+$/|unique:chatbot_whatsapps,whatsapp_number',
         ]);
 
+        $user = auth()->user();
+
+        $activeChatbotsCount = $user->chatbots()->whereNull('deleted_at')->count();
+
+        if ($user->chatbot_whatsapp_count <= $activeChatbotsCount) {
+            return redirect()->route('chatbots.index')->with('error', 'Anda sudah mencapai batas maksimal jumlah Chatbot WhatsApp.');
+        }
+
         ChatbotWhatsapp::create([
             'user_id' => auth()->id(),
             'is_active' => $request->is_active,

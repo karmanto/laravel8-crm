@@ -1,0 +1,38 @@
+@extends('layouts.app-master')
+
+@section('content')
+    <h1>Add New Customer Adder</h1>
+
+    <form action="{{ route('customerAdders.store') }}" method="POST">
+        @csrf
+        <div class="mb-3">
+            <label for="trigger_message" class="form-label">Trigger Message</label>
+            <input type="text" name="trigger_message" id="trigger_message" class="form-control @error('trigger_message') is-invalid @enderror" value="{{ old('trigger_message') }}" required>
+            @error('trigger_message')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="trigger_from" class="form-label">Trigger From</label>
+            <select name="trigger_from" id="trigger_from" class="form-control @error('trigger_from') is-invalid @enderror">
+                <option value="">Pilih Trigger Form</option>
+                <option value=0 {{ old('trigger_from') == 0 ? 'selected' : '' }}>
+                    User
+                </option>
+                <option value=1 {{ old('trigger_from') == 1 ? 'selected' : '' }}>
+                    Customer
+                </option>
+            </select>
+            @error('trigger_from')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Save</button>
+    </form>
+@endsection

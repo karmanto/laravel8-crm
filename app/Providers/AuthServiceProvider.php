@@ -10,6 +10,8 @@ use App\Policies\ChatbotWhatsappPolicy;
 use App\Models\ChatbotWhatsapp;
 use App\Policies\CustomerPolicy;
 use App\Models\Customer;
+use App\Models\CustomerAdder;
+use App\Policies\CustomerAdderPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,7 @@ class AuthServiceProvider extends ServiceProvider
         ChatbotSchedule::class => ChatbotSchedulePolicy::class,
         ChatbotWhatsapp::class => ChatbotWhatsappPolicy::class,
         Customer::class => CustomerPolicy::class,
+        CustomerAdder::class => CustomerAdderPolicy::class,
     ];
 
     /**

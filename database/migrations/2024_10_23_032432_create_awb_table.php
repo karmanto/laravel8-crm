@@ -10,9 +10,9 @@ class CreateAwbTable extends Migration
     {
         Schema::create('awb', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id');
-            $table->foreignId('logistic_id');
-            $table->foreignId('awb_notifier_status_id')->nullable()->constrained('awb_notifiers')->onDelete('set null')->comment('fill by last awb_notifiers has been send to customer');
+            $table->foreignId('customer_id')->constrained()->onDelete('restrict');
+            $table->foreignId('logistic_id')->constrained()->onDelete('restrict');
+            $table->foreignId('awb_notifier_status_id')->nullable()->constrained('awb_notifiers')->onDelete('restrict')->comment('fill by last awb_notifiers has been send to customer');
             $table->string('awb_number', 255);
             $table->timestamps();
             $table->softDeletes();

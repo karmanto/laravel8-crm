@@ -10,7 +10,7 @@ class CreateCustomerAddersTable extends Migration
     {
         Schema::create('customer_adders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->constrained()->onDelete('restrict');
             $table->text('trigger_message');
             $table->integer('trigger_from')->comment('user,customer');
             $table->timestamps();
@@ -20,6 +20,6 @@ class CreateCustomerAddersTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('awb');
+        Schema::dropIfExists('customer_adders');
     }
 }

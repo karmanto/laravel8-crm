@@ -30,6 +30,7 @@ class User extends Authenticatable
         'whatsapp_number',
         'username',
         'password',
+        'chatbot_whatsapp_count',
     ];
 
     /**
@@ -60,5 +61,10 @@ class User extends Authenticatable
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
+    }
+
+    public function chatbots()
+    {
+        return $this->hasMany(ChatbotWhatsapp::class);
     }
 }

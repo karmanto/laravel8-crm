@@ -19,16 +19,17 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Nama</th>
+                    <th>Username</th>
                     <th>Email</th>
                     <th>Status Aktif</th>
                     <th>Aksi</th>
+                    <th>Jumlah Chatbot WhatsApp</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($users as $user)
                     <tr>
-                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->username }}</td>
                         <td>{{ $user->email }}</td>
                         <td>
                             @if ($user->is_active)
@@ -45,9 +46,37 @@
                                 </button>
                             </form>
                         </td>
+                        <td>
+                            <form action="{{ route('admin.users.update-chatbot-whatsapp-count', $user->id) }}" method="POST" class="d-flex">
+                                @csrf
+                                @method('PUT')
+                                <input type="number" name="chatbot_whatsapp_count" value="{{ $user->chatbot_whatsapp_count }}" class="form-control form-control-sm" min="0" id="chatbot_whatsapp_count_{{ $user->id }}" style="max-width: 120px;">
+                                <button type="submit" class="btn btn-sm btn-secondary ms-2" id="update_button_{{ $user->id }}" disabled>Update</button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+
+    <script>
+        @foreach ($users as $user)
+            const originalValue{{ $user->id }} = document.getElementById('chatbot_whatsapp_count_{{ $user->id }}').value;
+            const input{{ $user->id }} = document.getElementById('chatbot_whatsapp_count_{{ $user->id }}');
+            const button{{ $user->id }} = document.getElementById('update_button_{{ $user->id }}');
+
+            input{{ $user->id }}.addEventListener('input', function() {
+                if (input{{ $user->id }}.value !== originalValue{{ $user->id }}) {
+                    button{{ $user->id }}.classList.remove('btn-secondary');
+                    button{{ $user->id }}.classList.add('btn-warning');
+                    button{{ $user->id }}.disabled = false;
+                } else {
+                    button{{ $user->id }}.classList.remove('btn-warning');
+                    button{{ $user->id }}.classList.add('btn-secondary');
+                    button{{ $user->id }}.disabled = true;
+                }
+            });
+        @endforeach
+    </script>
 @endsection

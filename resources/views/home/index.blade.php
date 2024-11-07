@@ -2,6 +2,12 @@
 
 @section('content')
     <div class="bg-light p-5 rounded">
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+        
         <h1>Aplikasi CRM Ala-Ala, fitur suka-suka.</h1>
 
         @auth

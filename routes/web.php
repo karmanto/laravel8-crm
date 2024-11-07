@@ -26,14 +26,17 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
     });
 
+    Route::group(['middleware' => ['auth']], function() {
+        Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
+    });
+
     Route::group(['middleware' => ['auth', 'check.admin.status']], function() {
         Route::get('/admin/users', 'AdminController@index')->name('admin.users.index');
         Route::post('/admin/users/{user}/toggle-status', 'AdminController@toggleStatus')->name('admin.users.toggle-status');
+        Route::put('/admin/users/{user}/update-chatbot-whatsapp-count', 'AdminController@updateChatbotWhatsappCount')->name('admin.users.update-chatbot-whatsapp-count');
     });
 
-    Route::group(['middleware' => ['auth']], function() {
-        Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
-
+    Route::group(['middleware' => ['auth', 'check.non_admin']], function() {
         Route::get('/chatbots', 'ChatbotWhatsappController@index')->name('chatbots.index');
         Route::get('/chatbots/create', 'ChatbotWhatsappController@create')->name('chatbots.create');
         Route::post('/chatbots', 'ChatbotWhatsappController@store')->name('chatbots.store');
@@ -49,5 +52,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/customers/{customer}/edit', 'CustomerController@edit')->name('customers.edit');
         Route::put('/customers/{customer}', 'CustomerController@update')->name('customers.update');
         Route::delete('/customers/{customer}', 'CustomerController@destroy')->name('customers.destroy');
+
+        Route::get('/customerAdders', 'CustomerAdderController@index')->name('customerAdders.index');
+        Route::get('/customerAdders/create', 'CustomerAdderController@create')->name('customerAdders.create');
+        Route::post('/customerAdders', 'CustomerAdderController@store')->name('customerAdders.store');
+        Route::get('/customerAdders/{customerAdder}/edit', 'CustomerAdderController@edit')->name('customerAdders.edit');
+        Route::put('/customerAdders/{customerAdder}', 'CustomerAdderController@update')->name('customerAdders.update');
+        Route::delete('/customerAdders/{customer}', 'CustomerAdderController@destroy')->name('customerAdders.destroy');
     });
 });

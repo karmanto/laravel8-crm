@@ -24,6 +24,6 @@ class CheckAdminStatus
             }
         }
 
-        return redirect()->route('home.index'); 
+        return redirect()->route('home.index')->with('error', 'Anda tidak memiliki akses.'); 
     }
 }
