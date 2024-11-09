@@ -1,6 +1,7 @@
 @extends('layouts.app-master')
 
 @section('content')
+<div class="bg-light p-5 rounded">
     <h1>Add New Customer Adder</h1>
 
     <form action="{{ route('customerAdders.store') }}" method="POST">
@@ -33,6 +34,8 @@
             @enderror
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Save</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{{ route('chatbots.index') }}" class="btn btn-secondary">Back to list</a>
     </form>
+</div>
 @endsection

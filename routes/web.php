@@ -28,9 +28,17 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
     Route::group(['middleware' => ['auth']], function() {
         Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
+
+        Route::get('/logistics', 'LogisticController@index')->name('logistics.index');
     });
 
     Route::group(['middleware' => ['auth', 'check.admin.status']], function() {
+        Route::get('/logistics/create', 'LogisticController@create')->name('logistics.create');
+        Route::post('/logistics', 'LogisticController@store')->name('logistics.store');
+        Route::get('/logistics/{logistic}/edit', 'LogisticController@edit')->name('logistics.edit');
+        Route::put('/logistics/{logistic}', 'LogisticController@update')->name('logistics.update');
+        Route::delete('/logistics/{logistic}', 'LogisticController@destroy')->name('logistics.destroy');
+
         Route::get('/admin/users', 'AdminController@index')->name('admin.users.index');
         Route::post('/admin/users/{user}/toggle-status', 'AdminController@toggleStatus')->name('admin.users.toggle-status');
         Route::put('/admin/users/{user}/update-chatbot-whatsapp-count', 'AdminController@updateChatbotWhatsappCount')->name('admin.users.update-chatbot-whatsapp-count');
@@ -59,5 +67,21 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/customerAdders/{customerAdder}/edit', 'CustomerAdderController@edit')->name('customerAdders.edit');
         Route::put('/customerAdders/{customerAdder}', 'CustomerAdderController@update')->name('customerAdders.update');
         Route::delete('/customerAdders/{customer}', 'CustomerAdderController@destroy')->name('customerAdders.destroy');
+
+        Route::get('/chatbot-schedules', 'ChatbotScheduleController@index')->name('chatbot-schedules.index');
+        Route::get('/chatbot-schedules/create', 'ChatbotScheduleController@create')->name('chatbot-schedules.create');
+        Route::post('/chatbot-schedules', 'ChatbotScheduleController@store')->name('chatbot-schedules.store');
+        Route::get('/chatbot-schedules/{chatbotSchedule}', 'ChatbotScheduleController@show')->name('chatbot-schedules.show');
+        Route::get('/chatbot-schedules/{chatbotSchedule}/edit', 'ChatbotScheduleController@edit')->name('chatbot-schedules.edit');
+        Route::put('/chatbot-schedules/{chatbotSchedule}', 'ChatbotScheduleController@update')->name('chatbot-schedules.update');
+        Route::delete('/chatbot-schedules/{chatbotSchedule}', 'ChatbotScheduleController@destroy')->name('chatbot-schedules.destroy');
+
+        Route::get('/awb-notifiers', 'AwbNotifierController@index')->name('awb-notifiers.index');
+        Route::get('/awb-notifiers/create', 'AwbNotifierController@create')->name('awb-notifiers.create');
+        Route::post('/awb-notifiers', 'AwbNotifierController@store')->name('awb-notifiers.store');
+        Route::get('/awb-notifiers/{awbNotifier}', 'AwbNotifierController@show')->name('awb-notifiers.show');
+        Route::get('/awb-notifiers/{awbNotifier}/edit', 'AwbNotifierController@edit')->name('awb-notifiers.edit');
+        Route::put('/awb-notifiers/{awbNotifier}', 'AwbNotifierController@update')->name('awb-notifiers.update');
+        Route::delete('/awb-notifiers/{awbNotifier}', 'AwbNotifierController@destroy')->name('awb-notifiers.destroy');
     });
 });

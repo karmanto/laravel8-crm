@@ -21,8 +21,8 @@
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
-            <button type="submit" class="btn btn-primary">Simpan</button>
-            <a href="{{ route('chatbots.index') }}" class="btn btn-secondary">Batal</a>
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="{{ route('chatbots.index') }}" class="btn btn-secondary">Back to list</a>
         </form>
     </div>
 @endsection

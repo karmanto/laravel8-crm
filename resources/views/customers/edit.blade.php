@@ -1,6 +1,7 @@
 @extends('layouts.app-master')
 
 @section('content')
+<div class="bg-light p-5 rounded">
     <h1>Edit Customer</h1>
 
     <form action="{{ route('customers.update', $customer->id) }}" method="POST">
@@ -47,7 +48,7 @@
             <label for="chatbot_schedule_id" class="form-label">Chatbot Schedule</label>
             <select name="chatbot_schedule_id" id="chatbot_schedule_id" class="form-control @error('chatbot_schedule_id') is-invalid @enderror">
                 <option value="">Pilih Schedule</option>
-                @foreach ($schedules as $shcedule)
+                @foreach ($schedules as $schedule)
                     <option value="{{ $schedule->id }}" {{ old('chatbot_schedule_id', $customer->chatbot_schedule_id) == $schedule->id ? 'selected' : '' }}>
                         {{ $schedule->name }}
                     </option>
@@ -61,10 +62,13 @@
         </div>
 
         <div class="form-check">
+            <input type="hidden" name="is_exception" value="0">
             <input class="form-check-input" type="checkbox" name="is_exception" id="is_exception" value="1" {{ old('is_exception', $customer->is_exception) ? 'checked' : '' }}>
             <label class="form-check-label" for="is_exception">Is Exception</label>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Update</button>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{{ route('chatbots.index') }}" class="btn btn-secondary">Back to list</a>
     </form>
+</div>
 @endsection

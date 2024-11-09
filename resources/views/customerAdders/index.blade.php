@@ -1,16 +1,22 @@
 @extends('layouts.app-master')
 
 @section('content')
+<div class="bg-light p-5 rounded">
     <h1>Daftar Customer Adder</h1>
-    <h5>otomatis menambahkan data customer berdasarkan pesan</h5>
 
-    <form method="GET" action="{{ route('customerAdders.index') }}">
-        <div class="row mb-3">
-            <div class="col">
-                <a href="{{ route('customerAdders.create') }}" class="btn btn-primary mb-3">Add New Customer Adder</a>
-            </div>
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
         </div>
-    </form>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <a href="{{ route('customerAdders.create') }}" class="btn btn-primary mb-3">Add New Customer Adder</a>
 
     <table class="table">
         <thead>
@@ -37,4 +43,5 @@
             @endforeach
         </tbody>
     </table>
+</div>
 @endsection

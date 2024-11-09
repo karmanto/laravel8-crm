@@ -61,9 +61,22 @@ class CustomerController extends Controller
         ]);
 
         $data = $request->all();
+        
         if ($request->is_exception) {
             $data['chatbot_whatsapp_id'] = null;
             $data['chatbot_schedule_id'] = null;
+            $data['schedule_send_after'] = null;
+        } else {
+            if ($request->filled('chatbot_schedule_id')) {
+                $schedule = ChatbotSchedule::find($request->chatbot_schedule_id);
+                if ($schedule && $schedule->send_after) {
+                    $data['schedule_send_after'] = now()->addSeconds($schedule->send_after);
+                } else {
+                    $data['schedule_send_after'] = null;
+                }
+            } else {
+                $data['schedule_send_after'] = null;
+            }
         }
 
         Customer::create(array_merge($data, ['user_id' => Auth::id()]));
@@ -83,6 +96,8 @@ class CustomerController extends Controller
 
     public function update(Request $request, Customer $customer)
     {
+        $this->authorize('update', $customer);
+        
         $request->validate([
             'name' => 'required|string|max:255',
             'whatsapp_number' => 'required|string|regex:/^[0-9]{7,15}$/|unique:customers,whatsapp_number,' . $customer->id,
@@ -96,13 +111,27 @@ class CustomerController extends Controller
                 'nullable',                        
                 'exists:chatbot_schedules,id'    
             ],
-            
         ]);
 
         $data = $request->all();
+
         if ($request->is_exception) {
             $data['chatbot_whatsapp_id'] = null;
             $data['chatbot_schedule_id'] = null;
+            $data['schedule_send_after'] = null;
+        } else {
+            if ($request->filled('chatbot_schedule_id')) {
+                if ($request->chatbot_schedule_id != $customer->chatbot_schedule_id) {
+                    $schedule = ChatbotSchedule::find($request->chatbot_schedule_id);
+                    if ($schedule && $schedule->send_after) {
+                        $data['schedule_send_after'] = now()->addSeconds($schedule->send_after);
+                    } else {
+                        $data['schedule_send_after'] = null;
+                    }
+                }
+            } else {
+                $data['schedule_send_after'] = null;
+            }
         }
 
         $customer->update($data);

@@ -6,32 +6,25 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Customer extends Model
+class Document extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'documents';
+
     protected $fillable = [
-        'name',
-        'whatsapp_number',
         'chatbot_schedule_id',
-        'chatbot_whatsapp_id',
-        'user_id',
-        'is_exception',
-        'schedule_send_after',
+        'awb_notifier_id',
+        'name',
+        'filepath',
     ];
-
-    public function chatbotWhatsApp()
-    {
-        return $this->belongsTo(ChatbotWhatsapp::class, 'chatbot_whatsapp_id');
-    }
-
     public function chatbotSchedule()
     {
         return $this->belongsTo(ChatbotSchedule::class, 'chatbot_schedule_id');
     }
-
-    public function user()
+    
+    public function awbNotifier()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(AwbNotifier::class, 'awb_notifier_id');
     }
 }

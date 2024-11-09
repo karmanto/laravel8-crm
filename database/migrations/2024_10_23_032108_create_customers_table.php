@@ -15,6 +15,7 @@ class CreateCustomersTable extends Migration
             $table->foreignId('chatbot_whatsapp_id')->nullable()->constrained()->onDelete('restrict');
             $table->string('name', 255);
             $table->string('whatsapp_number', 15)->unique();
+            $table->dateTime('schedule_send_after')->nullable();
             $table->boolean('is_exception')->default(false);
             $table->timestamps();
             $table->softDeletes();

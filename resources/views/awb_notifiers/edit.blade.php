@@ -1,0 +1,66 @@
+@extends('layouts.app-master')
+
+@section('content')
+<div class="bg-light p-5 rounded">
+    <h1>Edit Awb Notifier</h1>
+
+    <form action="{{ route('awb-notifiers.update', $awbNotifier->id) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+
+        <div class="mb-3">
+            <label for="name">Name</label>
+            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name', $awbNotifier->name) }}" required>
+            @error('name')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="description">Description</label>
+            <textarea name="description" class="form-control @error('description') is-invalid @enderror">{{ old('description', $awbNotifier->description) }}</textarea>
+            @error('description')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="message">Message</label>
+            <textarea name="message" class="form-control @error('message') is-invalid @enderror" required>{{ old('message', $awbNotifier->message) }}</textarea>
+            @error('message')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="trigger_awb_status">Trigger Awb Status</label>
+            <textarea name="trigger_awb_status" class="form-control @error('trigger_awb_status') is-invalid @enderror" required>{{ old('trigger_awb_status', $awbNotifier->trigger_awb_status) }}</textarea>
+            @error('trigger_awb_status')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="documents">Documents</label>
+            <input type="file" name="documents[]" class="form-control @error('documents.*') is-invalid @enderror" multiple>
+            <small class="form-text text-muted">You can upload multiple image less than 2MB (e.g., .jpg, .jpeg, .png).</small>
+            @error('documents.*')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{{ route('awb-notifiers.index') }}" class="btn btn-secondary">Back to List</a>
+    </form>
+</div>
+@endsection

@@ -1,6 +1,7 @@
 @extends('layouts.app-master')
 
 @section('content')
+<div class="bg-light p-5 rounded">
     <h1>Daftar Customer</h1>
 
     <form method="GET" action="{{ route('customers.index') }}">
@@ -52,6 +53,7 @@
                 <th>Chatbot WhatsApp Number</th>
                 <th>Chatbot Schedule</th>
                 <th>Is Exception</th>
+                <th>Schedule Send After</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -63,6 +65,7 @@
                     <td>{{ $customer->chatbotWhatsapp ? $customer->chatbotWhatsapp->whatsapp_number : '-' }}</td>
                     <td>{{ $customer->chatbotSchedule ? $customer->chatbotSchedule->name : '-' }}</td>
                     <td>{{ $customer->is_exception ? 'Yes' : 'No' }}</td>
+                    <td>{{ $customer->schedule_send_after ? $customer->schedule_send_after : '-' }}</td>
                     <td>
                         <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-sm btn-warning">Edit</a>
                         <form action="{{ route('customers.destroy', $customer->id) }}" method="POST" style="display:inline;">
@@ -75,6 +78,7 @@
             @endforeach
         </tbody>
     </table>
+</div>
 
     {{-- Menampilkan link pagination --}}
     {{ $customers->links() }}

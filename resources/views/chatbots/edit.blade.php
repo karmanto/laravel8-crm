@@ -34,8 +34,8 @@
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
-            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-            <a href="{{ route('chatbots.index') }}" class="btn btn-secondary">Batal</a>
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a href="{{ route('chatbots.index') }}" class="btn btn-secondary">Back to list</a>
         </form>
     </div>
 

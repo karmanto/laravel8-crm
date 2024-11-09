@@ -1,6 +1,7 @@
 @extends('layouts.app-master')
 
 @section('content')
+<div class="bg-light p-5 rounded">
     <h1>Add New Customer</h1>
 
     <form action="{{ route('customers.store') }}" method="POST">
@@ -46,7 +47,7 @@
             <label for="chatbot_schedule_id" class="form-label">Chatbot Schedule</label>
             <select name="chatbot_schedule_id" id="chatbot_schedule_id" class="form-control @error('chatbot_schedule_id') is-invalid @enderror">
                 <option value="">Pilih Schedule</option>
-                @foreach ($schedules as $shcedule)
+                @foreach ($schedules as $schedule)
                     <option value="{{ $schedule->id }}" {{ old('chatbot_schedule_id') == $schedule->id ? 'selected' : '' }}>
                         {{ $schedule->name }}
                     </option>
@@ -65,5 +66,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Save</button>
+        <a href="{{ route('chatbots.index') }}" class="btn btn-secondary">Back to list</a>
     </form>
+</div>
 @endsection
