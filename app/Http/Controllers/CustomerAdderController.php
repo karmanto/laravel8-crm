@@ -22,7 +22,7 @@ class CustomerAdderController extends Controller
     {
         $request->validate([
             'trigger_message' => 'required|string',
-            'trigger_from' => 'required|string',
+            'trigger_from' => 'required|integer',
         ]);
 
         CustomerAdder::create([
@@ -47,7 +47,7 @@ class CustomerAdderController extends Controller
 
         $request->validate([
             'trigger_message' => 'required|string',
-            'trigger_from' => 'required|string',
+            'trigger_from' => 'required|integer',
         ]);
 
         $customerAdder->update([

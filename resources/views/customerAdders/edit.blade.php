@@ -37,7 +37,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Update</button>
-        <a href="{{ route('chatbots.index') }}" class="btn btn-secondary">Back to list</a>
+        <a href="{{ route('customerAdders.index') }}" class="btn btn-secondary">Back to list</a>
     </form>
 </div>
 @endsection
