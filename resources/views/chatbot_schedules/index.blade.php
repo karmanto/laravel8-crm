@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="bg-light p-5 rounded">
-    <h1>Chatbot Schedules</h1>
+    <h1>Daftar Chatbot Schedules</h1>
     
     @if (session('success'))
         <div class="alert alert-success">

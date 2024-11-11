@@ -12,7 +12,7 @@ class CustomerController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Customer::with('chatbotWhatsapp')->where('user_id', Auth::id());
+        $query = Customer::where('user_id', Auth::id());
         $user = auth()->user();
         $chatbots = ChatbotWhatsapp::where('user_id', $user->id)->get();
         $schedules = ChatbotSchedule::where('user_id', $user->id)->get();

@@ -66,7 +66,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Save</button>
-        <a href="{{ route('chatbots.index') }}" class="btn btn-secondary">Back to list</a>
+        <a href="{{ route('customers.index') }}" class="btn btn-secondary mt-3">Back to list</a>
     </form>
 </div>
 @endsection

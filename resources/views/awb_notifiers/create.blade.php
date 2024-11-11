@@ -47,6 +47,23 @@
         </div>
 
         <div class="mb-3">
+            <label for="logistic_id" class="form-label">Logistic</label>
+            <select name="logistic_id" id="logistic_id" class="form-control @error('logistic_id') is-invalid @enderror">
+                <option value="">Pilih Logistic</option>
+                @foreach ($logistics as $logistic)
+                    <option value="{{ $logistic->id }}" {{ old('logistic_id') == $logistic->id ? 'selected' : '' }}>
+                        {{ $logistic->name }}
+                    </option>
+                @endforeach
+            </select>
+            @error('logistic_id')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
             <label for="documents">Documents</label>
             <input type="file" name="documents[]" class="form-control @error('documents.*') is-invalid @enderror" multiple>
             <small class="form-text text-muted">You can upload multiple image less than 2MB (e.g., .jpg, .jpeg, .png).</small>

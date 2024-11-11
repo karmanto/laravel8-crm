@@ -67,8 +67,8 @@
             <label class="form-check-label" for="is_exception">Is Exception</label>
         </div>
 
-        <button type="submit" class="btn btn-primary">Update</button>
-        <a href="{{ route('chatbots.index') }}" class="btn btn-secondary">Back to list</a>
+        <button type="submit" class="btn btn-primary mt-3">Update</button>
+        <a href="{{ route('customers.index') }}" class="btn btn-secondary mt-3">Back to list</a>
     </form>
 </div>
 @endsection

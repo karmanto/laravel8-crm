@@ -16,6 +16,7 @@ class AwbNotifier extends Model
         'description',
         'message',
         'trigger_awb_status',
+        'logistic_id'
     ];
     
     public function documents()
@@ -26,5 +27,10 @@ class AwbNotifier extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function logistic()
+    {
+        return $this->belongsTo(Logistic::class);
     }
 }

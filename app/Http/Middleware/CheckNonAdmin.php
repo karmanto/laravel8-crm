@@ -18,6 +18,8 @@ class CheckNonAdmin
     {
         if (auth()->check() && auth()->user()->is_admin) {
             return redirect()->route('home.index')->with('error', 'Anda tidak memiliki akses.');
+        } else if (!auth()->check() || (auth()->check() && !auth()->user()->is_active)) {
+            return redirect()->route('home.index')->with('error', 'Anda tidak memiliki akses.');
         }
 
         return $next($request);

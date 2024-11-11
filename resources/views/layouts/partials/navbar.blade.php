@@ -5,29 +5,30 @@
         <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
       </a>
 
-      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">About</a></li>
-      </ul>
-
-      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-        <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
-      </form>
-
       @auth
         @if (auth()->user()->is_active)
-          {{auth()->user()->name}}&nbsp;&nbsp;&nbsp;
+          <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="{{ route('home.index') }}" class="nav-link px-2 text-white">Home</a></li>
+            <li><a href="{{ route('chatbots.index') }}" class="nav-link px-2 text-white">Chatbot</a></li>
+            <li><a href="{{ route('chatbot-schedules.index') }}" class="nav-link px-2 text-white">Schedule</a></li>
+            <li><a href="{{ route('customers.index') }}" class="nav-link px-2 text-white">Customer</a></li>
+            <li><a href="{{ route('logistics.index') }}" class="nav-link px-2 text-white">Logistic</a></li>
+            <li><a href="{{ route('awbs.index') }}" class="nav-link px-2 text-white">Awb</a></li>
+          </ul>
         @endif
-        <div class="text-end">
-          <a href="{{ route('logout.perform') }}" class="btn btn-outline-light me-2">Logout</a>
-        </div>
       @endauth
 
+      <div class="ms-auto">
+        @auth
+          @if (auth()->user()->is_active)
+            {{auth()->user()->username}}&nbsp;&nbsp;&nbsp;
+          @endif
+          <a href="{{ route('logout.perform') }}" class="btn btn-outline-light me-2">Logout</a>
+        @endauth
+      </div>
+
       @guest
-        <div class="text-end">
+        <div class="ms-auto">
           <a href="{{ route('login.perform') }}" class="btn btn-outline-light me-2">Login</a>
           <a href="{{ route('register.perform') }}" class="btn btn-warning">Sign-up</a>
         </div>

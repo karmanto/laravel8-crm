@@ -11,4 +11,9 @@ class Logistic extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = ['name'];
+
+    public function awbs()
+    {
+        return $this->hasMany(Awb::class, 'logistic_id');
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Awb;
 use App\Models\AwbAdder;
 use App\Models\AwbNotifier;
 use App\Models\ChatbotSchedule;
@@ -14,6 +15,7 @@ use App\Models\Customer;
 use App\Models\CustomerAdder;
 use App\Policies\AwbAdderPolicy;
 use App\Policies\AwbNotifierPolicy;
+use App\Policies\AwbPolicy;
 use App\Policies\ChatbotSchedulePolicy;
 use App\Policies\CustomerAdderPolicy;
 
@@ -32,6 +34,7 @@ class AuthServiceProvider extends ServiceProvider
         AwbNotifier::class => AwbNotifierPolicy::class,
         ChatbotSchedule::class => ChatbotSchedulePolicy::class,
         AwbAdder::class => AwbAdderPolicy::class,
+        Awb::class => AwbPolicy::class,
     ];
 
     /**

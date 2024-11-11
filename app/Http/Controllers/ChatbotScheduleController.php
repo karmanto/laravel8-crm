@@ -11,7 +11,7 @@ class ChatbotScheduleController extends Controller
 {
     public function index()
     {
-        $chatbotSchedules = ChatbotSchedule::with('documents')->get();
+        $chatbotSchedules = ChatbotSchedule::where('user_id', auth()->id())->with('documents')->get();
         return view('chatbot_schedules.index', compact('chatbotSchedules'));
     }
 

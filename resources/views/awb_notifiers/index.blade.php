@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="bg-light p-5 rounded">
-    <h1>Awb Notifiers</h1>
+    <h1>Daftar Awb Notifier</h1>
     
     @if (session('success'))
         <div class="alert alert-success">
@@ -25,6 +25,7 @@
                 <th>Description</th>
                 <th>Message</th>
                 <th>Trigger Awb Status</th>
+                <th>Logistic</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -35,6 +36,7 @@
                     <td>{{ $awbNotifier->description }}</td>
                     <td>{{ $awbNotifier->message }}</td>
                     <td>{{ $awbNotifier->trigger_awb_status }}</td>
+                    <td>{{ $awbNotifier->logistic ? $awbNotifier->logistic->name : '-' }}</td>
                     <td>
                         <a href="{{ route('awb-notifiers.show', $awbNotifier->id) }}" class="btn btn-info">View</a>
                         <a href="{{ route('awb-notifiers.edit', $awbNotifier->id) }}" class="btn btn-warning">Edit</a>

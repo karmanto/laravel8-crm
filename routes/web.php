@@ -90,5 +90,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/awbAdders/{awbAdder}/edit', 'AwbAdderController@edit')->name('awbAdders.edit');
         Route::put('/awbAdders/{awbAdder}', 'AwbAdderController@update')->name('awbAdders.update');
         Route::delete('/awbAdders/{awbAdder}', 'AwbAdderController@destroy')->name('awbAdders.destroy');
+
+        Route::get('/awbs', 'AwbController@index')->name('awbs.index');
+        Route::get('/awbs/create', 'AwbController@create')->name('awbs.create');
+        Route::post('/awbs', 'AwbController@store')->name('awbs.store');
+        Route::get('/awbs/{awb}/edit', 'AwbController@edit')->name('awbs.edit');
+        Route::put('/awbs/{awb}', 'AwbController@update')->name('awbs.update');
+        Route::delete('/awbs/{awb}', 'AwbController@destroy')->name('awbs.destroy');
     });
 });

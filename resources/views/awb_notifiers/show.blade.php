@@ -10,6 +10,7 @@
             <p class="card-text"><strong>Description:</strong> {{ $awbNotifier->description }}</p>
             <p class="card-text"><strong>Message:</strong> {{ $awbNotifier->message }}</p>
             <p class="card-text"><strong>Trigger Awb Status:</strong> {{ $awbNotifier->trigger_awb_status }}</p>
+            <p class="card-text"><strong>Logistic:</strong> {{ $awbNotifier->logistic->name }}</p>
         </div>
     </div>
 

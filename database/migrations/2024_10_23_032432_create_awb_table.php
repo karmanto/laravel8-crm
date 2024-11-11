@@ -8,7 +8,7 @@ class CreateAwbTable extends Migration
 {
     public function up()
     {
-        Schema::create('awb', function (Blueprint $table) {
+        Schema::create('awbs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained()->onDelete('restrict');
             $table->foreignId('logistic_id')->constrained()->onDelete('restrict');
