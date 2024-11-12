@@ -21,6 +21,6 @@ class CreateAwbTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('awb');
+        Schema::dropIfExists('awbs');
     }
 }

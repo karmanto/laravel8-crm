@@ -47,21 +47,28 @@ class CustomerController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'whatsapp_number' => 'required|string|regex:/^[0-9]{7,15}$/|unique:customers',
+            'whatsapp_number' => [
+                'required',
+                'string',
+                'regex:/^[0-9]{7,15}$/',
+                'unique:customers,whatsapp_number,NULL,id,user_id,' . Auth::id()
+            ],
             'chatbot_whatsapp_id' => [
-                'required_if:is_exception,false', 
-                'required_without:is_exception', 
-                'nullable',                        
-                'exists:chatbot_whatsapps,id'    
+                'required_if:is_exception,false',
+                'required_without:is_exception',
+                'nullable',
+                'exists:chatbot_whatsapps,id'
             ],
             'chatbot_schedule_id' => [
-                'nullable',                        
-                'exists:chatbot_schedules,id'    
+                'nullable',
+                'exists:chatbot_schedules,id'
             ],
+        ], [
+            'whatsapp_number.unique' => 'Nomor WhatsApp ini sudah terdaftar untuk customer lain.',
         ]);
 
         $data = $request->all();
-        
+
         if ($request->is_exception) {
             $data['chatbot_whatsapp_id'] = null;
             $data['chatbot_schedule_id'] = null;
@@ -69,11 +76,7 @@ class CustomerController extends Controller
         } else {
             if ($request->filled('chatbot_schedule_id')) {
                 $schedule = ChatbotSchedule::find($request->chatbot_schedule_id);
-                if ($schedule && $schedule->send_after) {
-                    $data['schedule_send_after'] = now()->addSeconds($schedule->send_after);
-                } else {
-                    $data['schedule_send_after'] = null;
-                }
+                $data['schedule_send_after'] = $schedule && $schedule->send_after ? now()->addSeconds($schedule->send_after) : null;
             } else {
                 $data['schedule_send_after'] = null;
             }
@@ -97,20 +100,27 @@ class CustomerController extends Controller
     public function update(Request $request, Customer $customer)
     {
         $this->authorize('update', $customer);
-        
+
         $request->validate([
             'name' => 'required|string|max:255',
-            'whatsapp_number' => 'required|string|regex:/^[0-9]{7,15}$/|unique:customers,whatsapp_number,' . $customer->id,
+            'whatsapp_number' => [
+                'required',
+                'string',
+                'regex:/^[0-9]{7,15}$/',
+                'unique:customers,whatsapp_number,' . $customer->id . ',id,user_id,' . Auth::id()
+            ],
             'chatbot_whatsapp_id' => [
-                'required_if:is_exception,false', 
-                'required_without:is_exception', 
-                'nullable',                        
-                'exists:chatbot_whatsapps,id'    
+                'required_if:is_exception,false',
+                'required_without:is_exception',
+                'nullable',
+                'exists:chatbot_whatsapps,id'
             ],
             'chatbot_schedule_id' => [
-                'nullable',                        
-                'exists:chatbot_schedules,id'    
+                'nullable',
+                'exists:chatbot_schedules,id'
             ],
+        ], [
+            'whatsapp_number.unique' => 'Nomor WhatsApp ini sudah terdaftar untuk customer lain.',
         ]);
 
         $data = $request->all();
@@ -120,15 +130,9 @@ class CustomerController extends Controller
             $data['chatbot_schedule_id'] = null;
             $data['schedule_send_after'] = null;
         } else {
-            if ($request->filled('chatbot_schedule_id')) {
-                if ($request->chatbot_schedule_id != $customer->chatbot_schedule_id) {
-                    $schedule = ChatbotSchedule::find($request->chatbot_schedule_id);
-                    if ($schedule && $schedule->send_after) {
-                        $data['schedule_send_after'] = now()->addSeconds($schedule->send_after);
-                    } else {
-                        $data['schedule_send_after'] = null;
-                    }
-                }
+            if ($request->filled('chatbot_schedule_id') && $request->chatbot_schedule_id != $customer->chatbot_schedule_id) {
+                $schedule = ChatbotSchedule::find($request->chatbot_schedule_id);
+                $data['schedule_send_after'] = $schedule && $schedule->send_after ? now()->addSeconds($schedule->send_after) : null;
             } else {
                 $data['schedule_send_after'] = null;
             }

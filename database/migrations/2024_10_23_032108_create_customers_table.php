@@ -14,7 +14,7 @@ class CreateCustomersTable extends Migration
             $table->foreignId('chatbot_schedule_id')->nullable()->constrained()->onDelete('restrict')->comment('when trigger from chatbot_schedules has been reach, this field change by that chatbot_schedule_id.');
             $table->foreignId('chatbot_whatsapp_id')->nullable()->constrained()->onDelete('restrict');
             $table->string('name', 255);
-            $table->string('whatsapp_number', 15)->unique();
+            $table->string('whatsapp_number', 15);
             $table->dateTime('schedule_send_after')->nullable();
             $table->boolean('is_exception')->default(false);
             $table->timestamps();
