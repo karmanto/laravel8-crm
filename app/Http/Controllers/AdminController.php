@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\ChatbotWhatsapp;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -30,13 +31,22 @@ class AdminController extends Controller
             $request->validate([
                 'chatbot_whatsapp_count' => 'required|integer|min:0',
             ]);
-    
-            $user->chatbot_whatsapp_count = $request->input('chatbot_whatsapp_count');
+
+            $inputCount = $request->input('chatbot_whatsapp_count');
+            $currentChatbotCount = ChatbotWhatsapp::where('user_id', $user->id)->count();
+
+            if ($currentChatbotCount > $inputCount) {
+                return redirect()->back()->withErrors([
+                    'chatbot_whatsapp_count' => 'Jumlah Chatbot WhatsApp yang ada melebihi jumlah yang diinput.'
+                ]);
+            }
+
+            $user->chatbot_whatsapp_count = $inputCount;
             $user->save();
-    
+
             return redirect()->route('admin.users.index')->with('success', 'Jumlah Chatbot WhatsApp berhasil diperbarui.');
         }
 
-        return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk mengubah jumlah chatbot whatsapp.');
+        return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk mengubah jumlah chatbot WhatsApp.');
     }
 }

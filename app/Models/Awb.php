@@ -15,6 +15,7 @@ class Awb extends Model
         'logistic_id',
         'awb_notifier_status_id',
         'awb_number',
+        'awb_status',
     ];
 
     public function customer()

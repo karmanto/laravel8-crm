@@ -50,7 +50,7 @@ class AwbController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'awb_number' => 'required|string|max:255',
+            'awb_number' => 'required|string|max:255|unique:awbs,awb_number',
             'customer_id' => [
                 'required',                        
                 'exists:customers,id'    
@@ -87,7 +87,7 @@ class AwbController extends Controller
         $this->authorize('update', $awb);
 
         $request->validate([
-            'awb_number' => 'required|string|max:255',
+            'awb_number' => 'required|string|max:255|unique:awbs,awb_number,' . $awb->id,
             'customer_id' => [
                 'required',                        
                 'exists:customers,id'    

@@ -56,6 +56,7 @@
                 <th>Customer</th>
                 <th>Logistic</th>
                 <th>Awb Notifier</th>
+                <th>Awb Status</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -66,6 +67,7 @@
                     <td>{{ $awb->customer ? $awb->customer->name : '-' }}</td>
                     <td>{{ $awb->logistic ? $awb->logistic->name : '-' }}</td>
                     <td>{{ $awb->awbNotifier ? $awb->awbNotifier->name : '-' }}</td>
+                    <td>{{ $awb->awb_status ? $awb->awb_status : '-'}}</td>
                     <td>
                         <a href="{{ route('awbs.edit', $awb->id) }}" class="btn btn-sm btn-warning">Edit</a>
                         <form action="{{ route('awbs.destroy', $awb->id) }}" method="POST" style="display:inline;">
