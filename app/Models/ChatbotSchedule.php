@@ -31,6 +31,36 @@ class ChatbotSchedule extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function getFormattedSendAfterAttribute()
+    {
+        $seconds = $this->send_after;
+
+        $days = floor($seconds / 86400); 
+        $seconds %= 86400;
+
+        $hours = floor($seconds / 3600);
+        $seconds %= 3600;
+
+        $minutes = floor($seconds / 60);
+        $seconds %= 60;
+
+        $formatted = [];
+        if ($days > 0) {
+            $formatted[] = "$days hari";
+        }
+        if ($hours > 0) {
+            $formatted[] = "$hours jam";
+        }
+        if ($minutes > 0) {
+            $formatted[] = "$minutes menit";
+        }
+        if ($seconds > 0 || empty($formatted)) {
+            $formatted[] = "$seconds detik";
+        }
+
+        return implode(', ', $formatted);
+    }
+
     protected static function booted()
     {
         static::deleting(function ($chatbotSchedule) {

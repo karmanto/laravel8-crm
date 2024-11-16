@@ -38,16 +38,18 @@
                     <td>{{ $chatbotSchedule->message }}</td>
                     <td>{{ $chatbotSchedule->trigger_message }}</td>
                     <td>{{ $chatbotSchedule->trigger_from ? "Customer" : "User" }}</td>
-                    <td>{{ $chatbotSchedule->send_after }}</td>
+                    <td>{{ $chatbotSchedule->formatted_send_after }}</td>
                     <td>
-                        <a href="{{ route('chatbot-schedules.show', $chatbotSchedule->id) }}" class="btn btn-info">View</a>
-                        <a href="{{ route('chatbot-schedules.edit', $chatbotSchedule->id) }}" class="btn btn-warning">Edit</a>
-                        <form action="{{ route('chatbot-schedules.destroy', $chatbotSchedule->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
-                        </form>
-                    </td>
+                        <div class="d-flex align-items-stretch">
+                            <a href="{{ route('chatbot-schedules.show', $chatbotSchedule->id) }}" class="btn btn-info btn-sm me-2 flex-fill">View</a>
+                            <a href="{{ route('chatbot-schedules.edit', $chatbotSchedule->id) }}" class="btn btn-warning btn-sm me-2 flex-fill">Edit</a>
+                            <form action="{{ route('chatbot-schedules.destroy', $chatbotSchedule->id) }}" method="POST" class="flex-fill">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm w-100 h-100" onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
+                        </div>
+                    </td>                                     
                 </tr>
             @endforeach
         </tbody>

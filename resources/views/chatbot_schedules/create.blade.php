@@ -61,8 +61,22 @@
         </div>
 
         <div class="mb-3">
-            <label for="send_after">Send After (seconds)</label>
-            <input type="number" name="send_after" class="form-control @error('send_after') is-invalid @enderror" value="{{ old('send_after') }}" required>
+            <label for="send_after">Send After</label>
+            <div class="row">
+                <div class="col-3">
+                    <input type="number" id="days" class="form-control" placeholder="Days">
+                </div>
+                <div class="col-3">
+                    <input type="number" id="hours" class="form-control" placeholder="Hours" max="23">
+                </div>
+                <div class="col-3">
+                    <input type="number" id="minutes" class="form-control" placeholder="Minutes" max="59">
+                </div>
+                <div class="col-3">
+                    <input type="number" id="seconds" class="form-control" placeholder="Seconds" max="59">
+                </div>
+            </div>
+            <input type="hidden" name="send_after" id="send_after" class="form-control">
             @error('send_after')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -85,4 +99,28 @@
         <a href="{{ route('chatbot-schedules.index') }}" class="btn btn-secondary">Back to List</a>
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const daysInput = document.getElementById('days');
+        const hoursInput = document.getElementById('hours');
+        const minutesInput = document.getElementById('minutes');
+        const secondsInput = document.getElementById('seconds');
+        const sendAfterInput = document.getElementById('send_after');
+
+        function calculateTotalSeconds() {
+            const days = parseInt(daysInput.value) || 0;
+            const hours = parseInt(hoursInput.value) || 0;
+            const minutes = parseInt(minutesInput.value) || 0;
+            const seconds = parseInt(secondsInput.value) || 0;
+
+            const totalSeconds = (days * 86400) + (hours * 3600) + (minutes * 60) + seconds;
+            sendAfterInput.value = totalSeconds;
+        }
+
+        [daysInput, hoursInput, minutesInput, secondsInput].forEach(input => {
+            input.addEventListener('input', calculateTotalSeconds);
+        });
+    });
+</script>
 @endsection
