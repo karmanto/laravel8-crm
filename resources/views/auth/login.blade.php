@@ -4,7 +4,7 @@
     <form method="post" action="{{ route('login.perform') }}">
         
         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-        <img class="mb-4" src="{!! url('images/bootstrap-logo.svg') !!}" alt="" width="72" height="57">
+        <img class="mb-4" src="{!! url('images/crm-logo.png') !!}" alt="" width="200" height="150">
         
         <h1 class="h3 mb-3 fw-normal">Login</h1>
 
@@ -32,6 +32,10 @@
         </div>
 
         <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+
+        <div class="text-center mt-3">
+            <p>Don't have an account? <a href="{{ route('register.show') }}" class="btn btn-link">Sign Up</a></p>
+        </div>
         
         @include('auth.partials.copy')
     </form>

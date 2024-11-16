@@ -8,6 +8,8 @@
     <meta name="generator" content="Hugo 0.87.0">
     <title>CRM Ala-Ala</title>
 
+    <link rel="icon" href="{{ asset('images/crm-logo.png') }}" type="image/png" />
+
     <!-- Bootstrap core CSS -->
     <link href="{!! url('assets/bootstrap/css/bootstrap.min.css') !!}" rel="stylesheet">
 
