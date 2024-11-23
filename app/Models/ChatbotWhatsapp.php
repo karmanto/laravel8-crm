@@ -18,9 +18,4 @@ class ChatbotWhatsapp extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-
-    public function customers()
-    {
-        return $this->hasMany(Customer::class, 'chatbot_whatsapp_id');
-    }
 }

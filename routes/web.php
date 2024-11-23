@@ -61,35 +61,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::put('/customers/{customer}', 'CustomerController@update')->name('customers.update');
         Route::delete('/customers/{customer}', 'CustomerController@destroy')->name('customers.destroy');
 
-        Route::get('/customerAdders', 'CustomerAdderController@index')->name('customerAdders.index');
-        Route::get('/customerAdders/create', 'CustomerAdderController@create')->name('customerAdders.create');
-        Route::post('/customerAdders', 'CustomerAdderController@store')->name('customerAdders.store');
-        Route::get('/customerAdders/{customerAdder}/edit', 'CustomerAdderController@edit')->name('customerAdders.edit');
-        Route::put('/customerAdders/{customerAdder}', 'CustomerAdderController@update')->name('customerAdders.update');
-        Route::delete('/customerAdders/{customerAdder}', 'CustomerAdderController@destroy')->name('customerAdders.destroy');
-
         Route::get('/chatbot-schedules', 'ChatbotScheduleController@index')->name('chatbot-schedules.index');
-        Route::get('/chatbot-schedules/create', 'ChatbotScheduleController@create')->name('chatbot-schedules.create');
-        Route::post('/chatbot-schedules', 'ChatbotScheduleController@store')->name('chatbot-schedules.store');
-        Route::get('/chatbot-schedules/{chatbotSchedule}', 'ChatbotScheduleController@show')->name('chatbot-schedules.show');
-        Route::get('/chatbot-schedules/{chatbotSchedule}/edit', 'ChatbotScheduleController@edit')->name('chatbot-schedules.edit');
         Route::put('/chatbot-schedules/{chatbotSchedule}', 'ChatbotScheduleController@update')->name('chatbot-schedules.update');
-        Route::delete('/chatbot-schedules/{chatbotSchedule}', 'ChatbotScheduleController@destroy')->name('chatbot-schedules.destroy');
-
-        Route::get('/awb-notifiers', 'AwbNotifierController@index')->name('awb-notifiers.index');
-        Route::get('/awb-notifiers/create', 'AwbNotifierController@create')->name('awb-notifiers.create');
-        Route::post('/awb-notifiers', 'AwbNotifierController@store')->name('awb-notifiers.store');
-        Route::get('/awb-notifiers/{awbNotifier}', 'AwbNotifierController@show')->name('awb-notifiers.show');
-        Route::get('/awb-notifiers/{awbNotifier}/edit', 'AwbNotifierController@edit')->name('awb-notifiers.edit');
-        Route::put('/awb-notifiers/{awbNotifier}', 'AwbNotifierController@update')->name('awb-notifiers.update');
-        Route::delete('/awb-notifiers/{awbNotifier}', 'AwbNotifierController@destroy')->name('awb-notifiers.destroy');
-
-        Route::get('/awbAdders', 'AwbAdderController@index')->name('awbAdders.index');
-        Route::get('/awbAdders/create', 'AwbAdderController@create')->name('awbAdders.create');
-        Route::post('/awbAdders', 'AwbAdderController@store')->name('awbAdders.store');
-        Route::get('/awbAdders/{awbAdder}/edit', 'AwbAdderController@edit')->name('awbAdders.edit');
-        Route::put('/awbAdders/{awbAdder}', 'AwbAdderController@update')->name('awbAdders.update');
-        Route::delete('/awbAdders/{awbAdder}', 'AwbAdderController@destroy')->name('awbAdders.destroy');
 
         Route::get('/awbs', 'AwbController@index')->name('awbs.index');
         Route::get('/awbs/create', 'AwbController@create')->name('awbs.create');

@@ -12,9 +12,10 @@ class CreateAwbTable extends Migration
             $table->id();
             $table->foreignId('customer_id')->constrained()->onDelete('restrict');
             $table->foreignId('logistic_id')->constrained()->onDelete('restrict');
-            $table->foreignId('awb_notifier_status_id')->nullable()->constrained('awb_notifiers')->onDelete('restrict')->comment('fill by last awb_notifiers has been send to customer');
             $table->string('awb_number', 255);
-            $table->text('awb_status')->nullable()->comment('fill by last status of awb, doing by auto cek resi');
+            $table->text('last_awb_status')->nullable();
+            $table->dateTime('last_awb_status_date')->nullable();
+            $table->boolean('has_closed')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

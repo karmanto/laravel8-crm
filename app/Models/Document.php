@@ -10,21 +10,15 @@ class Document extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'documents';
-
     protected $fillable = [
         'chatbot_schedule_id',
-        'awb_notifier_id',
         'name',
         'filepath',
+        'type',
     ];
+
     public function chatbotSchedule()
     {
         return $this->belongsTo(ChatbotSchedule::class, 'chatbot_schedule_id');
-    }
-    
-    public function awbNotifier()
-    {
-        return $this->belongsTo(AwbNotifier::class, 'awb_notifier_id');
     }
 }

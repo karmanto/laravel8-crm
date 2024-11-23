@@ -13,9 +13,9 @@ class Awb extends Model
     protected $fillable = [
         'customer_id',
         'logistic_id',
-        'awb_notifier_status_id',
         'awb_number',
         'awb_status',
+        'has_closed'
     ];
 
     public function customer()
@@ -26,10 +26,5 @@ class Awb extends Model
     public function logistic()
     {
         return $this->belongsTo(Logistic::class, 'logistic_id');
-    }
-
-    public function awbNotifier()
-    {
-        return $this->belongsTo(awbNotifier::class, 'awb_notifier_status_id');
     }
 }

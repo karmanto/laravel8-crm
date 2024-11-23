@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
+use App\Models\ChatbotSchedule;
 
 class RegisterController extends Controller
 {
@@ -30,6 +31,10 @@ class RegisterController extends Controller
         $user = User::create($request->validated());
 
         auth()->login($user);
+
+        ChatbotSchedule::create([
+            'user_id' => $user->id,
+        ]);
 
         return redirect('/')->with('success', "Account successfully registered.");
     }
