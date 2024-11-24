@@ -67,11 +67,22 @@
 
             <tr style="background-color: lightyellow;">
                 <td>Chatbot Closing</td>
+                @php
+                    $closingFound = false;
+                @endphp
+
                 @foreach($chatbots as $closing)
                     @if($chatbotSchedule->chatbot_closing == $closing->id)
                         <td>{{ $closing->whatsapp_number }}</td>
+                        @php
+                            $closingFound = true;
+                        @endphp
                     @endif
                 @endforeach
+
+                @if(!$closingFound)
+                    <td></td>
+                @endif
                 <td>
                     <button 
                         class="btn btn-secondary" 
@@ -90,11 +101,22 @@
 
             <tr style="background-color: lightyellow;">
                 <td>Chatbot Repeat</td>
+                @php
+                    $repeatFound = false;
+                @endphp
+
                 @foreach($chatbots as $repeat)
                     @if($chatbotSchedule->chatbot_repeat == $repeat->id)
                         <td>{{ $repeat->whatsapp_number }}</td>
+                        @php
+                            $repeatFound = true;
+                        @endphp
                     @endif
                 @endforeach
+
+                @if(!$repeatFound)
+                    <td></td>
+                @endif
                 <td>
                     <button 
                         class="btn btn-secondary" 
@@ -129,230 +151,62 @@
             </tr>
             <tr><td colspan="3"></td></tr>
 
-            <tr style="background-color: skyblue;">
-                <td>Pesan Follow Up H+3</td>
-                <td style="white-space: pre-wrap;">{{ $chatbotSchedule->message_fu3 }}</td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalText" 
-                        data-field-title="Pesan Follow Up H+3"
-                        data-field-name="message_fu3" 
-                        data-field-value="{{ $chatbotSchedule->message_fu3 }}"
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
+            @php
+                $followUps = [
+                    ['day' => 'H+3', 'message' => 'message_fu3', 'imageType' => 'fu3_doc'],
+                    ['day' => 'H+7', 'message' => 'message_fu7', 'imageType' => 'fu7_doc'],
+                    ['day' => 'H+14', 'message' => 'message_fu14', 'imageType' => 'fu14_doc'],
+                    ['day' => 'H+21', 'message' => 'message_fu21', 'imageType' => 'fu21_doc'],
+                    ['day' => 'H+25', 'message' => 'message_fu25', 'imageType' => 'fu25_doc'],
+                ];
+            @endphp
 
-            <tr style="background-color: skyblue;">
-                <td>Follow Up H+3 Image</td>
-                <td>
-                    @php
-                        $fu3Doc = $chatbotSchedule->documents->firstWhere('type', 'fu3_doc');
-                    @endphp
-            
-                    @if ($fu3Doc)
-                        <img src="{{ asset('storage/' . str_replace('public/', '', $fu3Doc->filepath)) }}" alt="Follow Up H+3 Image" style="max-width: 100px;">
-                    @else
-                        No image
-                    @endif
-                </td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalFile" 
-                        data-field-title="Follow Up H+3 Image"
-                        data-field-name="fu3_doc" 
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
+            @foreach ($followUps as $followUp)
+                <tr style="background-color: skyblue;">
+                    <td>Pesan Follow Up {{ $followUp['day'] }}</td>
+                    <td style="white-space: pre-wrap;">{{ $chatbotSchedule->{$followUp['message']} }}</td>
+                    <td>
+                        <button 
+                            class="btn btn-secondary" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#updateModalText" 
+                            data-field-title="Pesan Follow Up {{ $followUp['day'] }}"
+                            data-field-name="{{ $followUp['message'] }}" 
+                            data-field-value="{{ $chatbotSchedule->{$followUp['message']} }}"
+                        >
+                            Update
+                        </button>
+                    </td>
+                </tr>
+                <tr><td colspan="3"></td></tr>
 
-            <tr style="background-color: skyblue;">
-                <td>Pesan Follow Up H+7</td>
-                <td style="white-space: pre-wrap;">{{ $chatbotSchedule->message_fu7 }}</td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalText" 
-                        data-field-title="Pesan Follow Up H+7"
-                        data-field-name="message_fu7" 
-                        data-field-value="{{ $chatbotSchedule->message_fu7 }}"
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
+                <tr style="background-color: skyblue;">
+                    <td>Follow Up {{ $followUp['day'] }} Image</td>
+                    <td>
+                        @php
+                            $document = $chatbotSchedule->documents->firstWhere('type', $followUp['imageType']);
+                        @endphp
 
-            <tr style="background-color: skyblue;">
-                <td>Follow Up H+7 Image</td>
-                <td>
-                    @php
-                        $fu7Doc = $chatbotSchedule->documents->firstWhere('type', 'fu7_doc');
-                    @endphp
-            
-                    @if ($fu7Doc)
-                        <img src="{{ asset('storage/' . str_replace('public/', '', $fu7Doc->filepath)) }}" alt="Follow Up H+7 Image" style="max-width: 100px;">
-                    @else
-                        No image
-                    @endif
-                </td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalFile" 
-                        data-field-title="Follow Up H+7 Image"
-                        data-field-name="fu7_doc" 
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
-
-            <tr style="background-color: skyblue;">
-                <td>Pesan Follow Up H+14</td>
-                <td style="white-space: pre-wrap;">{{ $chatbotSchedule->message_fu14 }}</td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalText" 
-                        data-field-title="Pesan Follow Up H+14"
-                        data-field-name="message_fu14" 
-                        data-field-value="{{ $chatbotSchedule->message_fu14 }}"
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
-
-            <tr style="background-color: skyblue;">
-                <td>Follow Up H+14 Image</td>
-                <td>
-                    @php
-                        $fu14Doc = $chatbotSchedule->documents->firstWhere('type', 'fu14_doc');
-                    @endphp
-            
-                    @if ($fu14Doc)
-                        <img src="{{ asset('storage/' . str_replace('public/', '', $fu14Doc->filepath)) }}" alt="Follow Up H+14 Image" style="max-width: 100px;">
-                    @else
-                        No image
-                    @endif
-                </td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalFile" 
-                        data-field-title="Follow Up H+14 Image"
-                        data-field-name="fu14_doc" 
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
-
-            <tr style="background-color: skyblue;">
-                <td>Pesan Follow Up H+21</td>
-                <td style="white-space: pre-wrap;">{{ $chatbotSchedule->message_fu21 }}</td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalText" 
-                        data-field-title="Pesan Follow Up H+21"
-                        data-field-name="message_fu21" 
-                        data-field-value="{{ $chatbotSchedule->message_fu21 }}"
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
-
-            <tr style="background-color: skyblue;">
-                <td>Follow Up H+21 Image</td>
-                <td>
-                    @php
-                        $fu21Doc = $chatbotSchedule->documents->firstWhere('type', 'fu21_doc');
-                    @endphp
-            
-                    @if ($fu21Doc)
-                        <img src="{{ asset('storage/' . str_replace('public/', '', $fu21Doc->filepath)) }}" alt="Follow Up H+21 Image" style="max-width: 100px;">
-                    @else
-                        No image
-                    @endif
-                </td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalFile" 
-                        data-field-title="Follow Up H+21 Image"
-                        data-field-name="fu21_doc" 
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
-
-            <tr style="background-color: skyblue;">
-                <td>Pesan Follow Up H+25</td>
-                <td style="white-space: pre-wrap;">{{ $chatbotSchedule->message_fu25 }}</td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalText" 
-                        data-field-title="Pesan Follow Up H+25"
-                        data-field-name="message_fu25" 
-                        data-field-value="{{ $chatbotSchedule->message_fu25 }}"
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
-
-            <tr style="background-color: skyblue;">
-                <td>Follow Up H+25 Image</td>
-                <td>
-                    @php
-                        $fu25Doc = $chatbotSchedule->documents->firstWhere('type', 'fu25_doc');
-                    @endphp
-            
-                    @if ($fu25Doc)
-                        <img src="{{ asset('storage/' . str_replace('public/', '', $fu25Doc->filepath)) }}" alt="Follow Up H+25 Image" style="max-width: 100px;">
-                    @else
-                        No image
-                    @endif
-                </td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalFile" 
-                        data-field-title="Follow Up H+25 Image"
-                        data-field-name="fu25_doc" 
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
+                        @if ($document)
+                            <img src="{{ asset('storage/' . str_replace('public/', '', $document->filepath)) }}" alt="Follow Up {{ $followUp['day'] }} Image" style="max-width: 100px;">
+                        @else
+                            No image
+                        @endif
+                    </td>
+                    <td>
+                        <button 
+                            class="btn btn-secondary" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#updateModalFile" 
+                            data-field-title="Follow Up {{ $followUp['day'] }} Image"
+                            data-field-name="{{ $followUp['imageType'] }}" 
+                        >
+                            Update
+                        </button>
+                    </td>
+                </tr>
+                <tr><td colspan="3"></td></tr>
+            @endforeach
 
             <tr style="background-color: LightCoral;">
                 <td>Trigger Order</td>
@@ -426,320 +280,69 @@
             </tr>
             <tr><td colspan="3"></td></tr>
 
-            <tr style="background-color: Lavender;">
-                <td>Pesan After Closing H+3</td>
-                <td style="white-space: pre-wrap;">{{ $chatbotSchedule->message_fu3ac }}</td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalText" 
-                        data-field-title="Pesan After Closing H+3"
-                        data-field-name="message_fu3ac" 
-                        data-field-value="{{ $chatbotSchedule->message_fu3ac }}"
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
+            @php
+                $followUps = [
+                    ['type' => 'ac', 'day' => 'H+3', 'message' => 'message_fu3ac', 'imageType' => 'fu3ac_doc'],
+                    ['type' => 'ac', 'day' => 'H+7', 'message' => 'message_fu7ac', 'imageType' => 'fu7ac_doc'],
+                    ['type' => 'ac', 'day' => 'H+14', 'message' => 'message_fu14ac', 'imageType' => 'fu14ac_doc'],
+                    ['type' => 'ac', 'day' => 'H+21', 'message' => 'message_fu21ac', 'imageType' => 'fu21ac_doc'],
+                    ['type' => 'ac', 'day' => 'H+25', 'message' => 'message_fu25ac', 'imageType' => 'fu25ac_doc'],
+                    ['type' => 'ar', 'day' => 'H+14', 'message' => 'message_fu14ar', 'imageType' => 'fu14ar_doc'],
+                    ['type' => 'ar', 'day' => 'H+25', 'message' => 'message_fu25ar', 'imageType' => 'fu25ar_doc'],
+                ];
+            @endphp
 
-            <tr style="background-color: Lavender;">
-                <td>After Closing H+3 Image</td>
-                <td>
-                    @php
-                        $fu3acDoc = $chatbotSchedule->documents->firstWhere('type', 'fu3ac_doc');
-                    @endphp
-            
-                    @if ($fu3acDoc)
-                        <img src="{{ asset('storage/' . str_replace('public/', '', $fu3acDoc->filepath)) }}" alt="After Closing H+3 Image" style="max-width: 100px;">
-                    @else
-                        No image
-                    @endif
-                </td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalFile" 
-                        data-field-title="After Closing H+3 Image"
-                        data-field-name="fu3ac_doc" 
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
+            @foreach ($followUps as $followUp)
+                @php
+                    $bgColor = $followUp['type'] === 'ar' ? 'honeydew' : 'Lavender';
+                    $title = $followUp['type'] === 'ar' ? 'Repeat' : 'Closing';
+                @endphp
 
-            <tr style="background-color: Lavender;">
-                <td>Pesan After Closing H+7</td>
-                <td style="white-space: pre-wrap;">{{ $chatbotSchedule->message_fu7ac }}</td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalText" 
-                        data-field-title="Pesan After Closing H+7"
-                        data-field-name="message_fu7ac" 
-                        data-field-value="{{ $chatbotSchedule->message_fu7ac }}"
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
+                <tr style="background-color: {{ $bgColor }};">
+                    <td>Pesan After {{ $title }} {{ $followUp['day'] }}</td>
+                    <td style="white-space: pre-wrap;">{{ $chatbotSchedule->{$followUp['message']} }}</td>
+                    <td>
+                        <button 
+                            class="btn btn-secondary" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#updateModalText" 
+                            data-field-title="Pesan After {{ $title }} {{ $followUp['day'] }}"
+                            data-field-name="{{ $followUp['message'] }}" 
+                            data-field-value="{{ $chatbotSchedule->{$followUp['message']} }}"
+                        >
+                            Update
+                        </button>
+                    </td>
+                </tr>
+                <tr><td colspan="3"></td></tr>
 
-            <tr style="background-color: Lavender;">
-                <td>After Closing H+7 Image</td>
-                <td>
-                    @php
-                        $fu7acDoc = $chatbotSchedule->documents->firstWhere('type', 'fu7ac_doc');
-                    @endphp
-            
-                    @if ($fu7acDoc)
-                        <img src="{{ asset('storage/' . str_replace('public/', '', $fu7acDoc->filepath)) }}" alt="After Closing H+7 Image" style="max-width: 100px;">
-                    @else
-                        No image
-                    @endif
-                </td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalFile" 
-                        data-field-title="After Closing H+7 Image"
-                        data-field-name="fu7ac_doc" 
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
+                <tr style="background-color: {{ $bgColor }};">
+                    <td>After {{ $title }} {{ $followUp['day'] }} Image</td>
+                    <td>
+                        @php
+                            $document = $chatbotSchedule->documents->firstWhere('type', $followUp['imageType']);
+                        @endphp
 
-            <tr style="background-color: Lavender;">
-                <td>Pesan After Closing H+14</td>
-                <td style="white-space: pre-wrap;">{{ $chatbotSchedule->message_fu14ac }}</td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalText" 
-                        data-field-title="Pesan After Closing H+14"
-                        data-field-name="message_fu14ac" 
-                        data-field-value="{{ $chatbotSchedule->message_fu14ac }}"
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
-
-            <tr style="background-color: Lavender;">
-                <td>After Closing H+14 Image</td>
-                <td>
-                    @php
-                        $fu14acDoc = $chatbotSchedule->documents->firstWhere('type', 'fu14ac_doc');
-                    @endphp
-            
-                    @if ($fu14acDoc)
-                        <img src="{{ asset('storage/' . str_replace('public/', '', $fu14acDoc->filepath)) }}" alt="After Closing H+14 Image" style="max-width: 100px;">
-                    @else
-                        No image
-                    @endif
-                </td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalFile" 
-                        data-field-title="After Closing H+14 Image"
-                        data-field-name="fu14ac_doc" 
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
-
-            <tr style="background-color: Lavender;">
-                <td>Pesan After Closing H+21</td>
-                <td style="white-space: pre-wrap;">{{ $chatbotSchedule->message_fu21ac }}</td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalText" 
-                        data-field-title="Pesan After Closing H+21"
-                        data-field-name="message_fu21ac" 
-                        data-field-value="{{ $chatbotSchedule->message_fu21ac }}"
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
-
-            <tr style="background-color: Lavender;">
-                <td>After Closing H+21 Image</td>
-                <td>
-                    @php
-                        $fu21acDoc = $chatbotSchedule->documents->firstWhere('type', 'fu21ac_doc');
-                    @endphp
-            
-                    @if ($fu21acDoc)
-                        <img src="{{ asset('storage/' . str_replace('public/', '', $fu21acDoc->filepath)) }}" alt="After Closing H+21 Image" style="max-width: 100px;">
-                    @else
-                        No image
-                    @endif
-                </td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalFile" 
-                        data-field-title="After Closing H+21 Image"
-                        data-field-name="fu21ac_doc" 
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
-
-            <tr style="background-color: Lavender;">
-                <td>Pesan After Closing H+25</td>
-                <td style="white-space: pre-wrap;">{{ $chatbotSchedule->message_fu25ac }}</td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalText" 
-                        data-field-title="Pesan After Closing H+25"
-                        data-field-name="message_fu25ac" 
-                        data-field-value="{{ $chatbotSchedule->message_fu25ac }}"
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
-
-            <tr style="background-color: Lavender;">
-                <td>After Closing H+25 Image</td>
-                <td>
-                    @php
-                        $fu25acDoc = $chatbotSchedule->documents->firstWhere('type', 'fu25ac_doc');
-                    @endphp
-            
-                    @if ($fu25acDoc)
-                        <img src="{{ asset('storage/' . str_replace('public/', '', $fu25acDoc->filepath)) }}" alt="After Closing H+25 Image" style="max-width: 100px;">
-                    @else
-                        No image
-                    @endif
-                </td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalFile" 
-                        data-field-title="After Closing H+25 Image"
-                        data-field-name="fu25ac_doc" 
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
-
-            <tr style="background-color: honeydew;">
-                <td>Pesan After Repeat H+14</td>
-                <td style="white-space: pre-wrap;">{{ $chatbotSchedule->message_fu14ar }}</td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalText" 
-                        data-field-title="Pesan After Repeat H+14"
-                        data-field-name="message_fu14ar" 
-                        data-field-value="{{ $chatbotSchedule->message_fu14ar }}"
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
-
-            <tr style="background-color: honeydew;">
-                <td>After Repeat H+14 Image</td>
-                <td>
-                    @php
-                        $fu14arDoc = $chatbotSchedule->documents->firstWhere('type', 'fu14ar_doc');
-                    @endphp
-            
-                    @if ($fu14arDoc)
-                        <img src="{{ asset('storage/' . str_replace('public/', '', $fu14arDoc->filepath)) }}" alt="After Closing H+14 Image" style="max-width: 100px;">
-                    @else
-                        No image
-                    @endif
-                </td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalFile" 
-                        data-field-title="After Repeat H+14 Image"
-                        data-field-name="fu14ar_doc" 
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
-
-            <tr style="background-color: honeydew;">
-                <td>Pesan After Repeat H+25</td>
-                <td style="white-space: pre-wrap;">{{ $chatbotSchedule->message_fu25ar }}</td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalText" 
-                        data-field-title="Pesan After Repeat H+25"
-                        data-field-name="message_fu25ar" 
-                        data-field-value="{{ $chatbotSchedule->message_fu25ar }}"
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
-
-            <tr style="background-color: honeydew;">
-                <td>After Repeat H+25 Image</td>
-                <td>
-                    @php
-                        $fu25arDoc = $chatbotSchedule->documents->firstWhere('type', 'fu25ar_doc');
-                    @endphp
-            
-                    @if ($fu25arDoc)
-                        <img src="{{ asset('storage/' . str_replace('public/', '', $fu25arDoc->filepath)) }}" alt="After Closing H+25 Image" style="max-width: 100px;">
-                    @else
-                        No image
-                    @endif
-                </td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalFile" 
-                        data-field-title="After Repeat H+25 Image"
-                        data-field-name="fu25ar_doc" 
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
+                        @if ($document)
+                            <img src="{{ asset('storage/' . str_replace('public/', '', $document->filepath)) }}" alt="After {{ $title }} {{ $followUp['day'] }} Image" style="max-width: 100px;">
+                        @else
+                            No image
+                        @endif
+                    </td>
+                    <td>
+                        <button 
+                            class="btn btn-secondary" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#updateModalFile" 
+                            data-field-title="After {{ $title }} {{ $followUp['day'] }} Image"
+                            data-field-name="{{ $followUp['imageType'] }}" 
+                        >
+                            Update
+                        </button>
+                    </td>
+                </tr>
+                <tr><td colspan="3"></td></tr>
+            @endforeach
         </tbody>
     </table>
 </div>

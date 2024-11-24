@@ -15,7 +15,6 @@ class AwbController extends Controller
     {
         $user = auth()->user();
         $customers = Customer::where('user_id', $user->id)->get();
-        $awbNotifiers = AwbNotifier::where('user_id', $user->id)->get();
         $logistics = Logistic::all();
         $customerIds = $customers->pluck('id')->toArray();
         $query = Awb::whereIn('customer_id', $customerIds);
@@ -27,24 +26,19 @@ class AwbController extends Controller
         if ($request->filled('logistic_id')) {
             $query->where('logistic_id', $request->logistic_id);
         }
-    
-        if ($request->filled('awb_notifier_status_id')) {
-            $query->where('awb_notifier_status_id', $request->awb_notifier_status_id);
-        }
 
         $awbs = $query->paginate(10);
 
-        return view('awbs.index', compact('awbs', 'customers', 'awbNotifiers', 'logistics'));
+        return view('awbs.index', compact('awbs', 'customers', 'logistics'));
     }
 
     public function create()
     {
         $user = auth()->user();
         $customers = Customer::where('user_id', $user->id)->get();
-        $awbNotifiers = AwbNotifier::where('user_id', $user->id)->get();
         $logistics = Logistic::all();
 
-        return view('awbs.create', compact('customers', 'logistics', 'awbNotifiers'));
+        return view('awbs.create', compact('customers', 'logistics'));
     }
 
     public function store(Request $request)
@@ -55,17 +49,13 @@ class AwbController extends Controller
                 'required',                        
                 'exists:customers,id'    
             ],
-            'awb_notifier_status_id' => [
-                'nullable',                        
-                'exists:awb_notifiers,id'    
-            ],
             'logistic_id' => [
                 'required',                        
                 'exists:logistics,id'    
             ],
         ]);
 
-        Awb::create($request->only('awb_number', 'customer_id', 'awb_notifier_status_id', 'logistic_id'));
+        Awb::create($request->only('awb_number', 'customer_id', 'logistic_id'));
 
         return redirect()->route('awbs.index')->with('success', 'Awb berhasil ditambahkan.');
     }
@@ -76,10 +66,9 @@ class AwbController extends Controller
 
         $user = auth()->user();
         $customers = Customer::where('user_id', $user->id)->get();
-        $awbNotifiers = AwbNotifier::where('user_id', $user->id)->get();
         $logistics = Logistic::all();
 
-        return view('awbs.edit', compact('awb', 'customers', 'awbNotifiers', 'logistics'));
+        return view('awbs.edit', compact('awb', 'customers', 'logistics'));
     }
 
     public function update(Request $request, Awb $awb)
@@ -92,17 +81,13 @@ class AwbController extends Controller
                 'required',                        
                 'exists:customers,id'    
             ],
-            'awb_notifier_status_id' => [
-                'nullable',                        
-                'exists:awb_notifiers,id'    
-            ],
             'logistic_id' => [
                 'required',                        
                 'exists:logistics,id'    
             ],
         ]);
 
-        $awb->update($request->only('awb_number', 'customer_id', 'awb_notifier_status_id', 'logistic_id'));
+        $awb->update($request->only('awb_number', 'customer_id', 'logistic_id'));
 
         return redirect()->route('awbs.index')->with('success', 'Awb berhasil diperbarui.');
     }

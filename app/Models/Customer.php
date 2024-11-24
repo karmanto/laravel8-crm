@@ -13,22 +13,11 @@ class Customer extends Model
     protected $fillable = [
         'name',
         'whatsapp_number',
-        'chatbot_schedule_id',
-        'chatbot_whatsapp_id',
+        'age',
+        'address',
         'user_id',
         'is_exception',
-        'schedule_send_after',
     ];
-
-    public function chatbotWhatsApp()
-    {
-        return $this->belongsTo(ChatbotWhatsapp::class, 'chatbot_whatsapp_id');
-    }
-
-    public function chatbotSchedule()
-    {
-        return $this->belongsTo(ChatbotSchedule::class, 'chatbot_schedule_id');
-    }
 
     public function user()
     {
@@ -38,5 +27,15 @@ class Customer extends Model
     public function awbs()
     {
         return $this->hasMany(Awb::class, 'customer_id');
+    }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class, 'customer_id');
+    }
+
+    public function lastEvent()
+    {
+        return $this->belongsTo(Event::class, 'last_event_id');
     }
 }

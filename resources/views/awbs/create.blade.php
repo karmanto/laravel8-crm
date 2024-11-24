@@ -50,23 +50,6 @@
             @enderror
         </div>
 
-        <div class="mb-3">
-            <label for="awb_notifier_status_id" class="form-label">Awb Notifier</label>
-            <select name="awb_notifier_status_id" id="awb_notifier_status_id" class="form-control @error('awb_notifier_status_id') is-invalid @enderror">
-                <option value="">Pilih Awb Notifier</option>
-                @foreach ($awbNotifiers as $awbNotifier)
-                    <option value="{{ $awbNotifier->id }}" {{ old('awb_notifier_status_id') == $awbNotifier->id ? 'selected' : '' }}>
-                        {{ $awbNotifier->name }}
-                    </option>
-                @endforeach
-            </select>
-            @error('awb_notifier_status_id')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-            @enderror
-        </div>
-
         <button type="submit" class="btn btn-primary mt-3">Save</button>
         <a href="{{ route('awbs.index') }}" class="btn btn-secondary mt-3">Back to list</a>
     </form>

@@ -28,16 +28,9 @@
         </div>
 
         <div class="mb-3">
-            <label for="chatbot_whatsapp_id" class="form-label">Chatbot WhatsApp</label>
-            <select name="chatbot_whatsapp_id" id="chatbot_whatsapp_id" class="form-control @error('chatbot_whatsapp_id') is-invalid @enderror">
-                <option value="">Pilih Chatbot</option>
-                @foreach ($chatbots as $chatbot)
-                    <option value="{{ $chatbot->id }}" {{ old('chatbot_whatsapp_id', $customer->chatbot_whatsapp_id) == $chatbot->id ? 'selected' : '' }}>
-                        {{ $chatbot->whatsapp_number }}
-                    </option>
-                @endforeach
-            </select>
-            @error('chatbot_whatsapp_id')
+            <label for="age" class="form-label">Umur</label>
+            <input type="number" name="age" id="age" class="form-control @error('age') is-invalid @enderror" value="{{ old('age', $customer->age) }}" min=5 max=100>
+            @error('age')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
@@ -45,16 +38,9 @@
         </div>
 
         <div class="mb-3">
-            <label for="chatbot_schedule_id" class="form-label">Chatbot Schedule</label>
-            <select name="chatbot_schedule_id" id="chatbot_schedule_id" class="form-control @error('chatbot_schedule_id') is-invalid @enderror">
-                <option value="">Pilih Schedule</option>
-                @foreach ($schedules as $schedule)
-                    <option value="{{ $schedule->id }}" {{ old('chatbot_schedule_id', $customer->chatbot_schedule_id) == $schedule->id ? 'selected' : '' }}>
-                        {{ $schedule->name }}
-                    </option>
-                @endforeach
-            </select>
-            @error('chatbot_schedule_id')
+            <label for="address" class="form-label">Alamat</label>
+            <textarea name="address" id="address" class="form-control @error('address') is-invalid @enderror" value="{{ old('address', $customer->address) }}"></textarea>
+            @error('address')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
