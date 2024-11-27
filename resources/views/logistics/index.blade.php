@@ -7,8 +7,16 @@
         <a href="{{ route('logistics.create') }}" class="btn btn-primary mb-3">Add New Logistic</a>
     @endif
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
     @endif
 
     <table class="table">
@@ -27,11 +35,6 @@
                     <td>
                         @if(auth()->user()->is_admin)
                             <a href="{{ route('logistics.edit', $logistic->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                            <form action="{{ route('logistics.destroy', $logistic->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>
-                            </form>
                         @endif
                     </td>
                 </tr>

@@ -4,6 +4,12 @@
 <div class="bg-light p-5 rounded">
     <h1>Edit Logistic</h1>
 
+    <form action="{{ route('logistics.destroy', $logistic->id) }}" method="POST" style="margin-bottom:10px;">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>
+    </form>
+
     <form action="{{ route('logistics.update', $logistic->id) }}" method="POST">
         @csrf
         @method('PUT')

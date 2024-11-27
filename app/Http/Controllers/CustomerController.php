@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ChatbotSchedule;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\ChatbotWhatsapp;
+use Illuminate\Validation\Rule;
 
 class CustomerController extends Controller
 {
@@ -32,7 +31,10 @@ class CustomerController extends Controller
                 'required',
                 'string',
                 'regex:/^[0-9]{7,15}$/',
-                'unique:customers,whatsapp_number,NULL,id,user_id,' . Auth::id()
+                Rule::unique('customers')->where(function ($query) {
+                    return $query->where('user_id', Auth::id())
+                                 ->whereNull('deleted_at');
+                }),
             ],
             'age' => 'nullable|integer|between:5,100',
             'address' => 'nullable|string',
@@ -52,7 +54,6 @@ class CustomerController extends Controller
     {
         $this->authorize('update', $customer);
 
-        $user = auth()->user();
         return view('customers.edit', compact('customer'));
     }
 
@@ -66,7 +67,10 @@ class CustomerController extends Controller
                 'required',
                 'string',
                 'regex:/^[0-9]{7,15}$/',
-                'unique:customers,whatsapp_number,' . $customer->id . ',id,user_id,' . Auth::id()
+                Rule::unique('customers')->where(function ($query) {
+                    return $query->where('user_id', Auth::id())
+                                 ->whereNull('deleted_at');
+                })->ignore($customer->id),
             ],
             'age' => 'nullable|integer|between:5,100',
             'address' => 'nullable|string',
@@ -90,5 +94,3 @@ class CustomerController extends Controller
         return redirect()->route('customers.index')->with('success', 'Customer berhasil dihapus.');
     }
 }
-
-

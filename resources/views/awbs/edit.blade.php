@@ -4,6 +4,12 @@
 <div class="bg-light p-5 rounded">
     <h1>Edit Awb</h1>
 
+    <form action="{{ route('awbs.destroy', $awb->id) }}" method="POST" style="margin-bottom:10px;">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>
+    </form>
+
     <form action="{{ route('awbs.update', $awb->id) }}" method="POST">
         @csrf
         @method('PUT')

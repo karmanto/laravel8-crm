@@ -4,17 +4,11 @@
     <div class="bg-light p-5 rounded">
         <h1>Edit Chatbot WhatsApp</h1>
 
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
+        <form action="{{ route('chatbots.destroy', $chatbot->id) }}" method="POST" style="margin-bottom:10px;">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>
+        </form>
 
         <form action="{{ route('chatbots.update', $chatbot->id) }}" method="POST" onsubmit="return confirmWhatsAppChange()">
             @csrf
@@ -29,7 +23,7 @@
             <div class="mb-3">
                 <label for="whatsapp_number" class="form-label">Nomor WhatsApp:</label>
                 <input type="text" name="whatsapp_number" id="whatsapp_number" class="form-control" 
-                       value="{{ old('whatsapp_number', $chatbot->whatsapp_number) }}" placeholder="Contoh: 6281234567890" required>
+                       value="{{ old('whatsapp_number', $chatbot->whatsapp_number) }}" placeholder="Contoh: 6281234567890" max=15 required>
                 @error('whatsapp_number')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror

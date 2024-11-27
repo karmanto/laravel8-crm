@@ -18,4 +18,14 @@ class ChatbotWhatsapp extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function closingSchedule()
+    {
+        return $this->hasOne(ChatbotSchedule::class, 'chatbot_closing');
+    }
+
+    public function repeatSchedule()
+    {
+        return $this->hasOne(ChatbotSchedule::class, 'chatbot_repeat');
+    }
 }

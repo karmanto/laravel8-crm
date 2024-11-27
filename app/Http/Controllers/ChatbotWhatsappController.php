@@ -23,7 +23,7 @@ class ChatbotWhatsappController extends Controller
     {
         $request->validate([
             'is_active' => 'required|boolean',
-            'whatsapp_number' => 'required|regex:/^[0-9]+$/|unique:chatbot_whatsapps,whatsapp_number',
+            'whatsapp_number' => 'required|regex:/^[0-9]+$/|max:15|unique:chatbot_whatsapps,whatsapp_number',
         ]);
 
         $user = auth()->user();
@@ -56,7 +56,7 @@ class ChatbotWhatsappController extends Controller
 
         $request->validate([
             'is_active' => 'required|boolean',
-            'whatsapp_number' => 'required|regex:/^[0-9]+$/|unique:chatbot_whatsapps,whatsapp_number,' . $chatbot->id,
+            'whatsapp_number' => 'required|regex:/^[0-9]+$/|max:15|unique:chatbot_whatsapps,whatsapp_number,' . $chatbot->id,
         ]);
 
         $chatbot->update([
@@ -73,8 +73,8 @@ class ChatbotWhatsappController extends Controller
 
         $this->authorize('delete', $chatbot);
 
-        if ($chatbot->customers()->exists()) {
-            return redirect()->route('chatbots.index')->with('error', 'Tidak bisa di delete, karena ada data customer yang terhubung dengan data ini.');
+        if ($chatbot->closingSchedule()->exists() || $chatbot->repeatSchedule()->exists()) {
+            return redirect()->route('chatbots.index')->with('error', 'Tidak bisa di delete, karena ada data schedule yang terhubung dengan data ini.');
         }
 
         $chatbot->qrcode = null;

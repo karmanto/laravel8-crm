@@ -16,7 +16,7 @@ class CreateCustomersTable extends Migration
             $table->integer('age')->nullable();
             $table->text('address')->nullable();
             $table->boolean('is_exception')->default(false);
-            $table->foreignId('last_event_id')->nullable()->constrained('events')->onDelete('restrict');
+            $table->unsignedBigInteger('last_event_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

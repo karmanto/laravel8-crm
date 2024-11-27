@@ -4,6 +4,18 @@
 <div class="bg-light p-5 rounded">
     <h1>Daftar Awb</h1>
 
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <form method="GET" action="{{ route('awbs.index') }}">
         <div class="row mb-3">
             <div class="col">
@@ -58,11 +70,6 @@
                     <td>{{ $awb->last_awb_status_date ? $awb->last_awb_status_date : '-'}}</td>
                     <td>
                         <a href="{{ route('awbs.edit', $awb->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                        <form action="{{ route('awbs.destroy', $awb->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>
-                        </form>
                     </td>
                 </tr>
             @endforeach

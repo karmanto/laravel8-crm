@@ -3,7 +3,7 @@
 @section('content')
     <div class="bg-light p-5 rounded">
         <h1>Daftar Chatbot WhatsApp</h1>
-
+        
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -57,11 +57,6 @@
                         </td> 
                         <td>
                             <a href="{{ route('chatbots.edit', $chatbot->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                            <form action="{{ route('chatbots.destroy', $chatbot->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>
-                            </form>
                         </td>
                     </tr>
                 @endforeach
