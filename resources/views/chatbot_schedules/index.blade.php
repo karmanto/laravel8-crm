@@ -16,335 +16,539 @@
         </div>
     @endif
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Field Name</th>
-                <th>Value</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr style="background-color: Pink;">
-                <td>Waktu Pengiriman Pesan</td>
-                <td>{{ $chatbotSchedule->time_sending }}</td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalNumber" 
-                        data-field-title="Waktu Pengiriman Pesan"
-                        data-field-name="time_sending" 
-                        data-field-value="{{ $chatbotSchedule->time_sending }}"
-                        data-field-min=0 
-                        data-field-max=23
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
+    @php
+        $updatedFields = session('updatedFields', []);
+    @endphp
 
-            <tr style="background-color: Pink;">
-                <td>Patokan GMT</td>
-                <td>{{ $chatbotSchedule->gmt_time_sending }}</td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalNumber" 
-                        data-field-title="Patokan GMT"
-                        data-field-name="gmt_time_sending" 
-                        data-field-value="{{ $chatbotSchedule->gmt_time_sending }}"
-                        data-field-min=-12 
-                        data-field-max=14
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
+    @php
+    $expandedGroups = [
+        'groupWaktuGMT' => ['time_sending', 'gmt_time_sending'],
+        'chatbot' => ['chatbot_closing', 'chatbot_repeat'],
+        'trigger' => ['trigger_new_customer', 'trigger_order', 'awb_pattern', 'logistic_pattern', 'age_pattern', 'address_pattern', 'trigger_update_awb',],
+        'followUp' => [
+            'message_fu3', 
+            'message_fu7', 
+            'message_fu14', 
+            'message_fu21', 
+            'message_fu25', 
+            'fu3_doc', 
+            'fu7_doc', 
+            'fu14_doc', 
+            'fu21_doc', 
+            'fu25_doc', 
+        ],
+        'resiGroup' => [
+            'message_in_kurir', 
+            'message_delivered',
+            'in_kurir_doc',
+            'delivered_doc',
+        ],
+        'afterClosing' => [
+            'message_fu3ac', 
+            'message_fu7ac', 
+            'message_fu14ac', 
+            'message_fu21ac', 
+            'message_fu25ac', 
+            'fu3ac_doc', 
+            'fu7ac_doc', 
+            'fu14ac_doc', 
+            'fu21ac_doc', 
+            'fu25ac_doc', 
+            'message_fu3ar', 
+            'message_fu7ar', 
+            'message_fu14ar', 
+            'message_fu21ar', 
+            'message_fu25ar', 
+            'fu3ar_doc', 
+            'fu7ar_doc', 
+            'fu14ar_doc', 
+            'fu21ar_doc', 
+            'fu25ar_doc', 
+        ],
+    ];
 
-            <tr style="background-color: lightyellow;">
-                <td>Chatbot Closing</td>
-                @php
-                    $closingFound = false;
-                @endphp
+    $isExpanded = fn($group) => !empty(array_intersect($updatedFields, $expandedGroups[$group] ?? []));
+    @endphp
 
-                @foreach($chatbots as $closing)
-                    @if($chatbotSchedule->chatbot_closing == $closing->id)
-                        <td>{{ $closing->whatsapp_number }}</td>
+    <div class="container">
+        <div>
+            <button class="btn btn-primary w-100 mb-2" data-bs-toggle="collapse" data-bs-target="#groupWaktuGMT">
+                Waktu Perpesanan
+            </button>
+            <div id="groupWaktuGMT" class="collapse {{ $isExpanded('groupWaktuGMT') ? 'show' : '' }}">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr style="background-color: skyBlue;">
+                            <td>Waktu Pesan Dikirim</td>
+                            <td>{{ $chatbotSchedule->time_sending }}</td>
+                            <td>
+                                <button 
+                                    class="btn btn-secondary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#updateModalNumber" 
+                                    data-field-title="Waktu Pesan Dikirim"
+                                    data-field-name="time_sending" 
+                                    data-field-value="{{ $chatbotSchedule->time_sending }}"
+                                    data-field-min=0 
+                                    data-field-max=23
+                                >
+                                    Update
+                                </button>
+                            </td>
+                        </tr>
+                        <tr><td colspan="3"></td></tr>
+
+                        <tr style="background-color: skyBlue;">
+                            <td>Patokan GMT</td>
+                            <td>{{ $chatbotSchedule->gmt_time_sending }}</td>
+                            <td>
+                                <button 
+                                    class="btn btn-secondary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#updateModalNumber" 
+                                    data-field-title="Patokan GMT"
+                                    data-field-name="gmt_time_sending" 
+                                    data-field-value="{{ $chatbotSchedule->gmt_time_sending }}"
+                                    data-field-min=-12 
+                                    data-field-max=14
+                                >
+                                    Update
+                                </button>
+                            </td>
+                        </tr>
+                        <tr><td colspan="3"></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div>
+            <button class="btn btn-primary w-100 mb-2" data-bs-toggle="collapse" data-bs-target="#chatbot">
+                Chatbot
+            </button>
+            <div id="chatbot" class="collapse {{ $isExpanded('chatbot') ? 'show' : '' }}">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr style="background-color: skyBlue;">
+                            <td>Chatbot Closing</td>
+                            @php
+                                $closingFound = false;
+                            @endphp
+
+                            @foreach($chatbots as $closing)
+                                @if($chatbotSchedule->chatbot_closing == $closing->id)
+                                    <td>{{ $closing->whatsapp_number }}</td>
+                                    @php
+                                        $closingFound = true;
+                                    @endphp
+                                @endif
+                            @endforeach
+
+                            @if(!$closingFound)
+                                <td></td>
+                            @endif
+                            <td>
+                                <button 
+                                    class="btn btn-secondary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#updateModalSelect" 
+                                    data-field-title="Chatbot Closing"
+                                    data-field-name="chatbot_closing"
+                                    data-field-options='@json($chatbots->map(fn($c) => ["id" => $c->id, "name" => $c->whatsapp_number])->toArray())'
+                                    data-field-value="{{ $chatbotSchedule->chatbot_closing }}"
+                                >
+                                    Update
+                                </button>
+                            </td>
+                        </tr>      
+                        <tr><td colspan="3"></td></tr>      
+
+                        <tr style="background-color: skyBlue;">
+                            <td>Chatbot Repeat</td>
+                            @php
+                                $repeatFound = false;
+                            @endphp
+
+                            @foreach($chatbots as $repeat)
+                                @if($chatbotSchedule->chatbot_repeat == $repeat->id)
+                                    <td>{{ $repeat->whatsapp_number }}</td>
+                                    @php
+                                        $repeatFound = true;
+                                    @endphp
+                                @endif
+                            @endforeach
+
+                            @if(!$repeatFound)
+                                <td></td>
+                            @endif
+                            <td>
+                                <button 
+                                    class="btn btn-secondary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#updateModalSelect" 
+                                    data-field-title="Chatbot Repeat"
+                                    data-field-name="chatbot_repeat"
+                                    data-field-options='@json($chatbots->map(fn($c) => ["id" => $c->id, "name" => $c->whatsapp_number])->toArray())'
+                                    data-field-value="{{ $chatbotSchedule->chatbot_repeat }}"
+                                >
+                                    Update
+                                </button>
+                            </td>
+                        </tr> 
+                        <tr><td colspan="3"></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div>
+            <button class="btn btn-primary w-100 mb-2" data-bs-toggle="collapse" data-bs-target="#trigger">
+                Trigger
+            </button>
+            <div 
+            id="trigger" class="collapse {{ $isExpanded('trigger') ? 'show' : '' }}">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr style="background-color: skyBlue;">
+                            <td>Trigger New Customer</td>
+                            <td style="white-space: pre-wrap;">{{ $chatbotSchedule->trigger_new_customer }}</td>
+                            <td>
+                                <button 
+                                    class="btn btn-secondary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#updateModalText" 
+                                    data-field-title="Trigger New Customer"
+                                    data-field-name="trigger_new_customer" 
+                                    data-field-value="{{ $chatbotSchedule->trigger_new_customer }}"
+                                >
+                                    Update
+                                </button>
+                            </td>
+                        </tr>
+                        <tr><td colspan="3"></td></tr>
+
+                        <tr style="background-color: skyBlue;">
+                            <td>Trigger Order</td>
+                            <td style="white-space: pre-wrap;">{{ $chatbotSchedule->trigger_order }}</td>
+                            <td>
+                                <button 
+                                    class="btn btn-secondary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#updateModalText" 
+                                    data-field-title="Trigger Order"
+                                    data-field-name="trigger_order" 
+                                    data-field-value="{{ $chatbotSchedule->trigger_order }}"
+                                >
+                                    Update
+                                </button>
+                            </td>
+                        </tr>
+                        <tr><td colspan="3"></td></tr>
+            
+                        <tr style="background-color: skyBlue;">
+                            <td>Logistic Pattern</td>
+                            <td style="white-space: pre-wrap;">{{ $chatbotSchedule->logistic_pattern }}</td>
+                            <td>
+                                <button 
+                                    class="btn btn-secondary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#updateModalText" 
+                                    data-field-title="Logistic Pattern"
+                                    data-field-name="logistic_pattern" 
+                                    data-field-value="{{ $chatbotSchedule->logistic_pattern }}"
+                                >
+                                    Update
+                                </button>
+                            </td>
+                        </tr>
+                        <tr><td colspan="3"></td></tr>
+            
+                        <tr style="background-color: skyBlue;">
+                            <td>Age Pattern</td>
+                            <td style="white-space: pre-wrap;">{{ $chatbotSchedule->age_pattern }}</td>
+                            <td>
+                                <button 
+                                    class="btn btn-secondary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#updateModalText" 
+                                    data-field-title="Age Pattern"
+                                    data-field-name="age_pattern" 
+                                    data-field-value="{{ $chatbotSchedule->age_pattern }}"
+                                >
+                                    Update
+                                </button>
+                            </td>
+                        </tr>
+                        <tr><td colspan="3"></td></tr>
+            
+                        <tr style="background-color: skyBlue;">
+                            <td>Address Pattern</td>
+                            <td style="white-space: pre-wrap;">{{ $chatbotSchedule->address_pattern }}</td>
+                            <td>
+                                <button 
+                                    class="btn btn-secondary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#updateModalText" 
+                                    data-field-title="Address Pattern"
+                                    data-field-name="address_pattern" 
+                                    data-field-value="{{ $chatbotSchedule->address_pattern }}"
+                                >
+                                    Update
+                                </button>
+                            </td>
+                        </tr>
+                        <tr><td colspan="3"></td></tr>
+
+                        <tr style="background-color: skyBlue;">
+                            <td>Trigger Update Resi</td>
+                            <td style="white-space: pre-wrap;">{{ $chatbotSchedule->trigger_update_awb }}</td>
+                            <td>
+                                <button 
+                                    class="btn btn-secondary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#updateModalText" 
+                                    data-field-title="Trigger Update Resi"
+                                    data-field-name="trigger_update_awb" 
+                                    data-field-value="{{ $chatbotSchedule->trigger_update_awb }}"
+                                >
+                                    Update
+                                </button>
+                            </td>
+                        </tr>
+                        <tr><td colspan="3"></td></tr>
+
+                        <tr style="background-color: skyBlue;">
+                            <td>Awb Pattern</td>
+                            <td style="white-space: pre-wrap;">{{ $chatbotSchedule->awb_pattern }}</td>
+                            <td>
+                                <button 
+                                    class="btn btn-secondary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#updateModalText" 
+                                    data-field-title="Awb Pattern"
+                                    data-field-name="awb_pattern" 
+                                    data-field-value="{{ $chatbotSchedule->awb_pattern }}"
+                                >
+                                    Update
+                                </button>
+                            </td>
+                        </tr>
+                        <tr><td colspan="3"></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div>
+            <button class="btn btn-primary w-100 mb-2" data-bs-toggle="collapse" data-bs-target="#followUp">
+                Follow Up
+            </button>
+            <div id="followUp" class="collapse {{ $isExpanded('followUp') ? 'show' : '' }}">
+                <table class="table table-bordered">
+                    <tbody>
                         @php
-                            $closingFound = true;
+                            $followUps = [
+                                ['day' => 'H+3', 'message' => 'message_fu3', 'imageType' => 'fu3_doc'],
+                                ['day' => 'H+7', 'message' => 'message_fu7', 'imageType' => 'fu7_doc'],
+                                ['day' => 'H+14', 'message' => 'message_fu14', 'imageType' => 'fu14_doc'],
+                                ['day' => 'H+21', 'message' => 'message_fu21', 'imageType' => 'fu21_doc'],
+                                ['day' => 'H+25', 'message' => 'message_fu25', 'imageType' => 'fu25_doc'],
+                            ];
                         @endphp
-                    @endif
-                @endforeach
 
-                @if(!$closingFound)
-                    <td></td>
-                @endif
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalSelect" 
-                        data-field-title="Chatbot Closing"
-                        data-field-name="chatbot_closing"
-                        data-field-options='@json($chatbots->map(fn($c) => ["id" => $c->id, "name" => $c->whatsapp_number])->toArray())'
-                        data-field-value="{{ $chatbotSchedule->chatbot_closing }}"
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>      
-            <tr><td colspan="3"></td></tr>      
+                        @foreach ($followUps as $followUp)
+                            <tr style="background-color: skyblue;">
+                                <td>Pesan Follow Up {{ $followUp['day'] }}</td>
+                                <td style="white-space: pre-wrap;">{{ $chatbotSchedule->{$followUp['message']} }}</td>
+                                <td>
+                                    <button 
+                                        class="btn btn-secondary" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#updateModalText" 
+                                        data-field-title="Pesan Follow Up {{ $followUp['day'] }}"
+                                        data-field-name="{{ $followUp['message'] }}" 
+                                        data-field-value="{{ $chatbotSchedule->{$followUp['message']} }}"
+                                    >
+                                        Update
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr><td colspan="3"></td></tr>
 
-            <tr style="background-color: lightyellow;">
-                <td>Chatbot Repeat</td>
-                @php
-                    $repeatFound = false;
-                @endphp
+                            <tr style="background-color: skyblue;">
+                                <td>Follow Up {{ $followUp['day'] }} File</td>
+                                <td>
+                                    @php
+                                        $document = $chatbotSchedule->documents->firstWhere('type', $followUp['imageType']);
+                                    @endphp
 
-                @foreach($chatbots as $repeat)
-                    @if($chatbotSchedule->chatbot_repeat == $repeat->id)
-                        <td>{{ $repeat->whatsapp_number }}</td>
+                                    @if ($document)
+                                        <img src="{{ asset('storage/' . str_replace('public/', '', $document->filepath)) }}" alt="Follow Up {{ $followUp['day'] }} File" style="max-width: 100px;">
+                                    @else
+                                        No File
+                                    @endif
+                                </td>
+                                <td>
+                                    <button 
+                                        class="btn btn-secondary" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#updateModalFile" 
+                                        data-field-title="Follow Up {{ $followUp['day'] }} File"
+                                        data-field-name="{{ $followUp['imageType'] }}" 
+                                    >
+                                        Update
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr><td colspan="3"></td></tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div>
+            <button class="btn btn-primary w-100 mb-2" data-bs-toggle="collapse" data-bs-target="#resiGroup">
+                Update Resi
+            </button>
+            <div id="resiGroup" class="collapse {{ $isExpanded('resiGroup') ? 'show' : '' }}">
+                <table class="table table-bordered">
+                    <tbody>
                         @php
-                            $repeatFound = true;
+                            $resis = [
+                                ['title' => 'Pesan Update Status dibawa Kurir', 'message' => 'message_in_kurir', 'imageType' => 'in_kurir_doc'],
+                                ['title' => 'Pesan Update Status Sampai Tujuan', 'message' => 'message_delivered', 'imageType' => 'delivered_doc'],
+                            ];
                         @endphp
-                    @endif
-                @endforeach
 
-                @if(!$repeatFound)
-                    <td></td>
-                @endif
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalSelect" 
-                        data-field-title="Chatbot Repeat"
-                        data-field-name="chatbot_repeat"
-                        data-field-options='@json($chatbots->map(fn($c) => ["id" => $c->id, "name" => $c->whatsapp_number])->toArray())'
-                        data-field-value="{{ $chatbotSchedule->chatbot_repeat }}"
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr> 
-            <tr><td colspan="3"></td></tr>
+                        @foreach ($resis as $resi)
+                            <tr style="background-color: skyblue;">
+                                <td>{{ $resi['title'] }}</td>
+                                <td style="white-space: pre-wrap;">{{ $chatbotSchedule->{$resi['message']} }}</td>
+                                <td>
+                                    <button 
+                                        class="btn btn-secondary" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#updateModalText" 
+                                        data-field-title="{{ $resi['title'] }}"
+                                        data-field-name="{{ $resi['message'] }}" 
+                                        data-field-value="{{ $chatbotSchedule->{$resi['message']} }}"
+                                    >
+                                        Update
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr><td colspan="3"></td></tr>
 
-            <tr style="background-color: LightCoral;">
-                <td>Trigger New Customer</td>
-                <td style="white-space: pre-wrap;">{{ $chatbotSchedule->trigger_new_customer }}</td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalText" 
-                        data-field-title="Trigger New Customer"
-                        data-field-name="trigger_new_customer" 
-                        data-field-value="{{ $chatbotSchedule->trigger_new_customer }}"
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
+                            <tr style="background-color: skyblue;">
+                                <td>{{ $resi['title'] }} File</td>
+                                <td>
+                                    @php
+                                        $document = $chatbotSchedule->documents->firstWhere('type', $resi['imageType']);
+                                    @endphp
 
-            @php
-                $followUps = [
-                    ['day' => 'H+3', 'message' => 'message_fu3', 'imageType' => 'fu3_doc'],
-                    ['day' => 'H+7', 'message' => 'message_fu7', 'imageType' => 'fu7_doc'],
-                    ['day' => 'H+14', 'message' => 'message_fu14', 'imageType' => 'fu14_doc'],
-                    ['day' => 'H+21', 'message' => 'message_fu21', 'imageType' => 'fu21_doc'],
-                    ['day' => 'H+25', 'message' => 'message_fu25', 'imageType' => 'fu25_doc'],
-                ];
-            @endphp
+                                    @if ($document)
+                                        <img src="{{ asset('storage/' . str_replace('public/', '', $document->filepath)) }}" alt="Follow Up {{ $resi['title'] }} File" style="max-width: 100px;">
+                                    @else
+                                        No File
+                                    @endif
+                                </td>
+                                <td>
+                                    <button 
+                                        class="btn btn-secondary" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#updateModalFile" 
+                                        data-field-title="{{ $resi['title'] }} File"
+                                        data-field-name="{{ $resi['imageType'] }}" 
+                                    >
+                                        Update
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr><td colspan="3"></td></tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-            @foreach ($followUps as $followUp)
-                <tr style="background-color: skyblue;">
-                    <td>Pesan Follow Up {{ $followUp['day'] }}</td>
-                    <td style="white-space: pre-wrap;">{{ $chatbotSchedule->{$followUp['message']} }}</td>
-                    <td>
-                        <button 
-                            class="btn btn-secondary" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#updateModalText" 
-                            data-field-title="Pesan Follow Up {{ $followUp['day'] }}"
-                            data-field-name="{{ $followUp['message'] }}" 
-                            data-field-value="{{ $chatbotSchedule->{$followUp['message']} }}"
-                        >
-                            Update
-                        </button>
-                    </td>
-                </tr>
-                <tr><td colspan="3"></td></tr>
-
-                <tr style="background-color: skyblue;">
-                    <td>Follow Up {{ $followUp['day'] }} Image</td>
-                    <td>
+        <div>
+            <button class="btn btn-primary w-100 mb-2" data-bs-toggle="collapse" data-bs-target="#afterClosing">
+                After Closing
+            </button>
+            <div id="afterClosing" class="collapse {{ $isExpanded('afterClosing') ? 'show' : '' }}">
+                <table class="table table-bordered">
+                    <tbody>
                         @php
-                            $document = $chatbotSchedule->documents->firstWhere('type', $followUp['imageType']);
+                            $followUps = [
+                                ['type' => 'ac', 'day' => 'H+3', 'message' => 'message_fu3ac', 'imageType' => 'fu3ac_doc'],
+                                ['type' => 'ac', 'day' => 'H+7', 'message' => 'message_fu7ac', 'imageType' => 'fu7ac_doc'],
+                                ['type' => 'ac', 'day' => 'H+14', 'message' => 'message_fu14ac', 'imageType' => 'fu14ac_doc'],
+                                ['type' => 'ac', 'day' => 'H+21', 'message' => 'message_fu21ac', 'imageType' => 'fu21ac_doc'],
+                                ['type' => 'ac', 'day' => 'H+25', 'message' => 'message_fu25ac', 'imageType' => 'fu25ac_doc'],
+                                ['type' => 'ar', 'day' => 'H+3', 'message' => 'message_fu3ar', 'imageType' => 'fu3ar_doc'],
+                                ['type' => 'ar', 'day' => 'H+7', 'message' => 'message_fu7ar', 'imageType' => 'fu7ar_doc'],
+                                ['type' => 'ar', 'day' => 'H+14', 'message' => 'message_fu14ar', 'imageType' => 'fu14ar_doc'],
+                                ['type' => 'ar', 'day' => 'H+21', 'message' => 'message_fu21ar', 'imageType' => 'fu21ar_doc'],
+                                ['type' => 'ar', 'day' => 'H+25', 'message' => 'message_fu25ar', 'imageType' => 'fu25ar_doc'],
+                            ];
                         @endphp
 
-                        @if ($document)
-                            <img src="{{ asset('storage/' . str_replace('public/', '', $document->filepath)) }}" alt="Follow Up {{ $followUp['day'] }} Image" style="max-width: 100px;">
-                        @else
-                            No image
-                        @endif
-                    </td>
-                    <td>
-                        <button 
-                            class="btn btn-secondary" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#updateModalFile" 
-                            data-field-title="Follow Up {{ $followUp['day'] }} Image"
-                            data-field-name="{{ $followUp['imageType'] }}" 
-                        >
-                            Update
-                        </button>
-                    </td>
-                </tr>
-                <tr><td colspan="3"></td></tr>
-            @endforeach
+                        @foreach ($followUps as $followUp)
+                            @php
+                                $title = $followUp['type'] === 'ar' ? 'Repeat' : 'Closing';
+                            @endphp
 
-            <tr style="background-color: LightCoral;">
-                <td>Trigger Order</td>
-                <td style="white-space: pre-wrap;">{{ $chatbotSchedule->trigger_order }}</td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalText" 
-                        data-field-title="Trigger Order"
-                        data-field-name="trigger_order" 
-                        data-field-value="{{ $chatbotSchedule->trigger_order }}"
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
+                            <tr style="background-color: skyBlue;">
+                                <td>Pesan After {{ $title }} {{ $followUp['day'] }}</td>
+                                <td style="white-space: pre-wrap;">{{ $chatbotSchedule->{$followUp['message']} }}</td>
+                                <td>
+                                    <button 
+                                        class="btn btn-secondary" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#updateModalText" 
+                                        data-field-title="Pesan After {{ $title }} {{ $followUp['day'] }}"
+                                        data-field-name="{{ $followUp['message'] }}" 
+                                        data-field-value="{{ $chatbotSchedule->{$followUp['message']} }}"
+                                    >
+                                        Update
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr><td colspan="3"></td></tr>
 
-            <tr style="background-color: lightgreen;">
-                <td>Pesan Update Resi</td>
-                <td style="white-space: pre-wrap;">{{ $chatbotSchedule->message_update_awb }}</td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalText" 
-                        data-field-title="Pesan Update Resi"
-                        data-field-name="message_update_awb" 
-                        data-field-value="{{ $chatbotSchedule->message_update_awb }}"
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
+                            <tr style="background-color: skyBlue;">
+                                <td>After {{ $title }} {{ $followUp['day'] }} File</td>
+                                <td>
+                                    @php
+                                        $document = $chatbotSchedule->documents->firstWhere('type', $followUp['imageType']);
+                                    @endphp
 
-            <tr style="background-color: lightgreen;">
-                <td>Pesan Update Status dibawa Kurir</td>
-                <td style="white-space: pre-wrap;">{{ $chatbotSchedule->message_in_kurir }}</td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalText" 
-                        data-field-title="Pesan Update Status dibawa Kurir"
-                        data-field-name="message_in_kurir" 
-                        data-field-value="{{ $chatbotSchedule->message_in_kurir }}"
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
-
-            <tr style="background-color: lightgreen;">
-                <td>Pesan Update Status Sampai Tujuan</td>
-                <td style="white-space: pre-wrap;">{{ $chatbotSchedule->message_delivered }}</td>
-                <td>
-                    <button 
-                        class="btn btn-secondary" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#updateModalText" 
-                        data-field-title="Pesan Update Status Sampai Tujuan"
-                        data-field-name="message_delivered" 
-                        data-field-value="{{ $chatbotSchedule->message_delivered }}"
-                    >
-                        Update
-                    </button>
-                </td>
-            </tr>
-            <tr><td colspan="3"></td></tr>
-
-            @php
-                $followUps = [
-                    ['type' => 'ac', 'day' => 'H+3', 'message' => 'message_fu3ac', 'imageType' => 'fu3ac_doc'],
-                    ['type' => 'ac', 'day' => 'H+7', 'message' => 'message_fu7ac', 'imageType' => 'fu7ac_doc'],
-                    ['type' => 'ac', 'day' => 'H+14', 'message' => 'message_fu14ac', 'imageType' => 'fu14ac_doc'],
-                    ['type' => 'ac', 'day' => 'H+21', 'message' => 'message_fu21ac', 'imageType' => 'fu21ac_doc'],
-                    ['type' => 'ac', 'day' => 'H+25', 'message' => 'message_fu25ac', 'imageType' => 'fu25ac_doc'],
-                    ['type' => 'ar', 'day' => 'H+14', 'message' => 'message_fu14ar', 'imageType' => 'fu14ar_doc'],
-                    ['type' => 'ar', 'day' => 'H+25', 'message' => 'message_fu25ar', 'imageType' => 'fu25ar_doc'],
-                ];
-            @endphp
-
-            @foreach ($followUps as $followUp)
-                @php
-                    $bgColor = $followUp['type'] === 'ar' ? 'honeydew' : 'Lavender';
-                    $title = $followUp['type'] === 'ar' ? 'Repeat' : 'Closing';
-                @endphp
-
-                <tr style="background-color: {{ $bgColor }};">
-                    <td>Pesan After {{ $title }} {{ $followUp['day'] }}</td>
-                    <td style="white-space: pre-wrap;">{{ $chatbotSchedule->{$followUp['message']} }}</td>
-                    <td>
-                        <button 
-                            class="btn btn-secondary" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#updateModalText" 
-                            data-field-title="Pesan After {{ $title }} {{ $followUp['day'] }}"
-                            data-field-name="{{ $followUp['message'] }}" 
-                            data-field-value="{{ $chatbotSchedule->{$followUp['message']} }}"
-                        >
-                            Update
-                        </button>
-                    </td>
-                </tr>
-                <tr><td colspan="3"></td></tr>
-
-                <tr style="background-color: {{ $bgColor }};">
-                    <td>After {{ $title }} {{ $followUp['day'] }} Image</td>
-                    <td>
-                        @php
-                            $document = $chatbotSchedule->documents->firstWhere('type', $followUp['imageType']);
-                        @endphp
-
-                        @if ($document)
-                            <img src="{{ asset('storage/' . str_replace('public/', '', $document->filepath)) }}" alt="After {{ $title }} {{ $followUp['day'] }} Image" style="max-width: 100px;">
-                        @else
-                            No image
-                        @endif
-                    </td>
-                    <td>
-                        <button 
-                            class="btn btn-secondary" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#updateModalFile" 
-                            data-field-title="After {{ $title }} {{ $followUp['day'] }} Image"
-                            data-field-name="{{ $followUp['imageType'] }}" 
-                        >
-                            Update
-                        </button>
-                    </td>
-                </tr>
-                <tr><td colspan="3"></td></tr>
-            @endforeach
-        </tbody>
-    </table>
+                                    @if ($document)
+                                        <img src="{{ asset('storage/' . str_replace('public/', '', $document->filepath)) }}" alt="After {{ $title }} {{ $followUp['day'] }} File" style="max-width: 100px;">
+                                    @else
+                                        No File
+                                    @endif
+                                </td>
+                                <td>
+                                    <button 
+                                        class="btn btn-secondary" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#updateModalFile" 
+                                        data-field-title="After {{ $title }} {{ $followUp['day'] }} File"
+                                        data-field-name="{{ $followUp['imageType'] }}" 
+                                    >
+                                        Update
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr><td colspan="3"></td></tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal Template Number-->

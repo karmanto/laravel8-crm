@@ -22,7 +22,7 @@ class CreateChatbotSchedulesTable extends Migration
             $table->text('message_fu21')->nullable();              
             $table->text('message_fu25')->nullable();        
             $table->text('trigger_order')->nullable();   
-            $table->text('message_update_awb')->nullable();
+            $table->text('trigger_update_awb')->nullable();
             $table->text('message_in_kurir')->nullable();    
             $table->text('message_delivered')->nullable();
             $table->text('message_fu3ac')->nullable();      

@@ -23,7 +23,7 @@ class ChatbotSchedule extends Model
         'message_fu21',
         'message_fu25',
         'trigger_order',
-        'message_update_awb',
+        'trigger_update_awb',
         'message_in_kurir',
         'message_delivered',
         'message_fu3ac',
@@ -31,8 +31,15 @@ class ChatbotSchedule extends Model
         'message_fu14ac',
         'message_fu21ac',
         'message_fu25ac',
+        'message_fu3ar',
+        'message_fu7ar',
         'message_fu14ar',
+        'message_fu21ar',
         'message_fu25ar',
+        'awb_pattern',
+        'logistic_pattern',
+        'age_pattern',
+        'address_pattern',
     ];
 
     public function user()

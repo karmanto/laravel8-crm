@@ -33,8 +33,11 @@ class CreateEventsTable extends Migration
                 update awb repeat, 
                 in kurir repeat, 
                 repeat,
-                fu14 after repeat,
-                fu25 after repeat');
+                fu3 after repeat, 
+                fu7 after repeat, 
+                fu14 after repeat, 
+                fu21 after repeat, 
+                fu25 after repeat,');
             $table->timestamps();
             $table->softDeletes();
         });
