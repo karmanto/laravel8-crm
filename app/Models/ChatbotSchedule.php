@@ -40,6 +40,8 @@ class ChatbotSchedule extends Model
         'logistic_pattern',
         'age_pattern',
         'address_pattern',
+        'total_order_pattern',
+        'message_delivering',
     ];
 
     public function user()

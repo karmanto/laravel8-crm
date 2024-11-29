@@ -24,7 +24,7 @@
     $expandedGroups = [
         'groupWaktuGMT' => ['time_sending', 'gmt_time_sending'],
         'chatbot' => ['chatbot_closing', 'chatbot_repeat'],
-        'trigger' => ['trigger_new_customer', 'trigger_order', 'awb_pattern', 'logistic_pattern', 'age_pattern', 'address_pattern', 'trigger_update_awb',],
+        'trigger' => ['trigger_new_customer', 'trigger_order', 'awb_pattern', 'logistic_pattern', 'age_pattern', 'address_pattern', 'trigger_update_awb', 'total_order_pattern'],
         'followUp' => [
             'message_fu3', 
             'message_fu7', 
@@ -38,8 +38,10 @@
             'fu25_doc', 
         ],
         'resiGroup' => [
+            'message_delivering',
             'message_in_kurir', 
             'message_delivered',
+            'delivering_doc',
             'in_kurir_doc',
             'delivered_doc',
         ],
@@ -282,6 +284,24 @@
                         <tr><td colspan="3"></td></tr>
 
                         <tr style="background-color: skyBlue;">
+                            <td>Total Order Pattern</td>
+                            <td style="white-space: pre-wrap;">{{ $chatbotSchedule->total_order_pattern }}</td>
+                            <td>
+                                <button 
+                                    class="btn btn-secondary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#updateModalText" 
+                                    data-field-title="Total Order Pattern"
+                                    data-field-name="total_order_pattern" 
+                                    data-field-value="{{ $chatbotSchedule->total_order_pattern }}"
+                                >
+                                    Update
+                                </button>
+                            </td>
+                        </tr>
+                        <tr><td colspan="3"></td></tr>
+
+                        <tr style="background-color: skyBlue;">
                             <td>Trigger Update Resi</td>
                             <td style="white-space: pre-wrap;">{{ $chatbotSchedule->trigger_update_awb }}</td>
                             <td>
@@ -300,14 +320,14 @@
                         <tr><td colspan="3"></td></tr>
 
                         <tr style="background-color: skyBlue;">
-                            <td>Awb Pattern</td>
+                            <td>Resi Pattern</td>
                             <td style="white-space: pre-wrap;">{{ $chatbotSchedule->awb_pattern }}</td>
                             <td>
                                 <button 
                                     class="btn btn-secondary" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#updateModalText" 
-                                    data-field-title="Awb Pattern"
+                                    data-field-title="Resi Pattern"
                                     data-field-name="awb_pattern" 
                                     data-field-value="{{ $chatbotSchedule->awb_pattern }}"
                                 >
@@ -416,6 +436,7 @@
                     <tbody>
                         @php
                             $resis = [
+                                ['title' => 'Pesan Update Status Paket Terkirim', 'message' => 'message_delivering', 'imageType' => 'delivering_doc'],
                                 ['title' => 'Pesan Update Status dibawa Kurir', 'message' => 'message_in_kurir', 'imageType' => 'in_kurir_doc'],
                                 ['title' => 'Pesan Update Status Sampai Tujuan', 'message' => 'message_delivered', 'imageType' => 'delivered_doc'],
                             ];

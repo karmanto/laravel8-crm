@@ -43,7 +43,9 @@ class ChatbotScheduleController extends Controller
             'logistic_pattern' => 'sometimes|string',
             'age_pattern' => 'sometimes|string',
             'address_pattern' => 'sometimes|string',
+            'total_order_pattern' => 'sometimes|string',
             'trigger_update_awb' => 'sometimes|string',
+            'message_delivering' => 'sometimes|string',
             'message_in_kurir' => 'sometimes|string',
             'message_delivered' => 'sometimes|string',
             'message_fu3ac' => 'sometimes|string',
@@ -88,6 +90,7 @@ class ChatbotScheduleController extends Controller
             'fu14ar_doc',
             'fu21ar_doc',
             'fu25ar_doc',
+            'delivering_doc',
             'in_kurir_doc',
             'delivered_doc',
         ];
