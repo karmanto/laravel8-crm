@@ -60,10 +60,8 @@ class ChatbotScheduleController extends Controller
             'message_fu25ar' => 'sometimes|string',
         ]);
 
-        // Simpan data asli sebelum update
         $originalData = $chatbotSchedule->only(array_keys($validatedData));
 
-        // Lakukan update data
         $chatbotSchedule->update($validatedData);
 
         // Tentukan field yang berubah
