@@ -246,24 +246,6 @@
                         <tr><td colspan="3"></td></tr>
             
                         <tr style="background-color: skyBlue;">
-                            <td>Logistic Pattern</td>
-                            <td style="white-space: pre-wrap;">{{ $chatbotSchedule->logistic_pattern }}</td>
-                            <td>
-                                <button 
-                                    class="btn btn-secondary" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#updateModalText" 
-                                    data-field-title="Logistic Pattern"
-                                    data-field-name="logistic_pattern" 
-                                    data-field-value="{{ $chatbotSchedule->logistic_pattern }}"
-                                >
-                                    Update
-                                </button>
-                            </td>
-                        </tr>
-                        <tr><td colspan="3"></td></tr>
-            
-                        <tr style="background-color: skyBlue;">
                             <td>Age Pattern</td>
                             <td style="white-space: pre-wrap;">{{ $chatbotSchedule->age_pattern }}</td>
                             <td>
@@ -328,6 +310,24 @@
                                     data-field-title="Awb Pattern"
                                     data-field-name="awb_pattern" 
                                     data-field-value="{{ $chatbotSchedule->awb_pattern }}"
+                                >
+                                    Update
+                                </button>
+                            </td>
+                        </tr>
+                        <tr><td colspan="3"></td></tr>
+
+                        <tr style="background-color: skyBlue;">
+                            <td>Logistic Pattern</td>
+                            <td style="white-space: pre-wrap;">{{ $chatbotSchedule->logistic_pattern }}</td>
+                            <td>
+                                <button 
+                                    class="btn btn-secondary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#updateModalText" 
+                                    data-field-title="Logistic Pattern"
+                                    data-field-name="logistic_pattern" 
+                                    data-field-value="{{ $chatbotSchedule->logistic_pattern }}"
                                 >
                                     Update
                                 </button>
