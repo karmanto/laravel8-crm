@@ -9,7 +9,7 @@ class AddTotalOrderFieldOnEventsTable extends Migration
     public function up()
     {
         Schema::table('events', function (Blueprint $table) {
-            $table->decimal('total_order')->nullable()->after('status');
+            $table->integer('total_order')->nullable()->after('status');
         });
     }
 

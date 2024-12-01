@@ -64,7 +64,6 @@ class ChatbotScheduleController extends Controller
 
         $chatbotSchedule->update($validatedData);
 
-        // Tentukan field yang berubah
         $updatedFields = [];
         foreach ($validatedData as $key => $value) {
             if ($originalData[$key] !== $value) {
@@ -102,46 +101,46 @@ class ChatbotScheduleController extends Controller
                         'mimes:jpg,jpeg,png,mp4,mov,avi',
                         function ($attribute, $value, $fail) {
                             $maxSize = 0;
-                
+        
                             $mimeType = $value->getMimeType();
                             if (str_starts_with($mimeType, 'image/')) {
                                 $maxSize = 2048; 
                             } elseif (str_starts_with($mimeType, 'video/')) {
                                 $maxSize = 16000; 
                             }
-                
+        
                             if ($value->getSize() > $maxSize * 1024) {
                                 $fail("$attribute exceeds the maximum size of $maxSize KB.");
                             }
                         },
                     ],
                 ]);
-
+        
                 $file = $request->file($field);
                 $filePath = $file->store('public');  
-
+        
                 $existingDocument = Document::where('chatbot_schedule_id', $chatbotSchedule->id)
                     ->where('type', $field)
                     ->first();
-
+        
                 if ($existingDocument) {
                     Storage::delete($existingDocument->filepath);
                     $existingDocument->delete();
                 }
-
+        
                 Document::create([
                     'chatbot_schedule_id' => $chatbotSchedule->id,
                     'name' => $file->getClientOriginalName(),
                     'filepath' => $filePath,
                     'type' => $field,
                 ]);
-
+        
                 $updatedFields[] = $field;
-            } else {
+            } elseif ($request->has($field) && is_null($request->input($field))) {
                 $existingDocument = Document::where('chatbot_schedule_id', $chatbotSchedule->id)
                     ->where('type', $field)
                     ->first();
-
+        
                 if ($existingDocument) {
                     Storage::delete($existingDocument->filepath);
                     $existingDocument->delete();
