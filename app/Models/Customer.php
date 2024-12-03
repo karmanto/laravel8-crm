@@ -33,9 +33,4 @@ class Customer extends Model
     {
         return $this->hasMany(Event::class, 'customer_id');
     }
-
-    public function lastEvent()
-    {
-        return $this->belongsTo(Event::class, 'last_event_id');
-    }
 }

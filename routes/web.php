@@ -41,7 +41,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
         Route::get('/admin/users', 'AdminController@index')->name('admin.users.index');
         Route::post('/admin/users/{user}/toggle-status', 'AdminController@toggleStatus')->name('admin.users.toggle-status');
-        Route::put('/admin/users/{user}/update-chatbot-whatsapp-count', 'AdminController@updateChatbotWhatsappCount')->name('admin.users.update-chatbot-whatsapp-count');
     });
 
     Route::group(['middleware' => ['auth', 'check.non_admin']], function() {

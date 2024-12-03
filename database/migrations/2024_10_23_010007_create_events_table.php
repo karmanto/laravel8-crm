@@ -22,7 +22,7 @@ class CreateEventsTable extends Migration
                 awb release, 
                 update awb, 
                 in kurir, 
-                closing, 
+                delivered, 
                 retur,
                 fu3 after closing, 
                 fu7 after closing, 
