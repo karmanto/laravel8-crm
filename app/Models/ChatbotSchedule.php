@@ -39,6 +39,7 @@ class ChatbotSchedule extends Model
         'awb_pattern',
         'logistic_pattern',
         'age_pattern',
+        'name_pattern',
         'address_pattern',
         'total_order_pattern',
         'message_delivering',

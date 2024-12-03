@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('password');
             $table->boolean('is_admin')->default(false);
             $table->boolean('is_active')->default(false);
-            $table->integer('chatbot_whatsapp_count')->default(3);
+            $table->integer('chatbot_whatsapp_count')->default(2);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

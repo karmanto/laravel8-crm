@@ -42,6 +42,7 @@ class ChatbotScheduleController extends Controller
             'awb_pattern' => 'sometimes|string',
             'logistic_pattern' => 'sometimes|string',
             'age_pattern' => 'sometimes|string',
+            'name_pattern' => 'sometimes|string',
             'address_pattern' => 'sometimes|string',
             'total_order_pattern' => 'sometimes|string',
             'trigger_update_awb' => 'sometimes|string',

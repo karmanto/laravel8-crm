@@ -24,7 +24,7 @@
     $expandedGroups = [
         'groupWaktuGMT' => ['time_sending', 'gmt_time_sending'],
         'chatbot' => ['chatbot_closing', 'chatbot_repeat'],
-        'trigger' => ['trigger_new_customer', 'trigger_order', 'awb_pattern', 'logistic_pattern', 'age_pattern', 'address_pattern', 'trigger_update_awb', 'total_order_pattern'],
+        'trigger' => ['trigger_new_customer', 'trigger_order', 'name_pattern', 'awb_pattern', 'logistic_pattern', 'age_pattern', 'address_pattern', 'trigger_update_awb', 'total_order_pattern'],
         'followUp' => [
             'message_fu3', 
             'message_fu7', 
@@ -240,6 +240,24 @@
                                     data-field-title="Trigger Order"
                                     data-field-name="trigger_order" 
                                     data-field-value="{{ $chatbotSchedule->trigger_order }}"
+                                >
+                                    Update
+                                </button>
+                            </td>
+                        </tr>
+                        <tr><td colspan="3"></td></tr>
+
+                        <tr style="background-color: skyBlue;">
+                            <td>Name Pattern</td>
+                            <td style="white-space: pre-wrap;">{{ $chatbotSchedule->name_pattern }}</td>
+                            <td>
+                                <button 
+                                    class="btn btn-secondary" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#updateModalText" 
+                                    data-field-title="Name Pattern"
+                                    data-field-name="name_pattern" 
+                                    data-field-value="{{ $chatbotSchedule->name_pattern }}"
                                 >
                                     Update
                                 </button>
