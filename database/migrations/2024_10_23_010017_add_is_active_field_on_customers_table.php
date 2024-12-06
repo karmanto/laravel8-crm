@@ -9,7 +9,7 @@ class AddIsActiveFieldOnCustomersTable extends Migration
     public function up()
     {
         Schema::table('customers', function (Blueprint $table) {
-            $table->integer('is_active')->nullable()->after('is_exception');
+            $table->boolean('is_active')->nullable()->after('is_exception');
         });
     }
 

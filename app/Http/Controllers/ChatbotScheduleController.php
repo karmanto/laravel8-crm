@@ -137,7 +137,7 @@ class ChatbotScheduleController extends Controller
                 ]);
         
                 $updatedFields[] = $field;
-            } elseif ($request->has($field) && is_null($request->input($field))) {
+            } else {
                 $existingDocument = Document::where('chatbot_schedule_id', $chatbotSchedule->id)
                     ->where('type', $field)
                     ->first();
