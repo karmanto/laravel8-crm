@@ -468,7 +468,7 @@
                                     <button 
                                         class="btn btn-secondary" 
                                         data-bs-toggle="modal" 
-                                        data-bs-target="#updateModalText" 
+                                        data-bs-target="#updateModalTextWithEstimate" 
                                         data-field-title="{{ $resi['title'] }}"
                                         data-field-name="{{ $resi['message'] }}" 
                                         data-field-value="{{ $chatbotSchedule->{$resi['message']} }}"
@@ -668,6 +668,35 @@
     </div>
 </div>
 
+<!-- Modal Template Text With Estimate Day-->
+<div class="modal fade" id="updateModalTextWithEstimate" tabindex="-1" aria-labelledby="updateModalTextWithEstimateLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="updateTextForm" method="POST" action="{{ route('chatbot-schedules.update', $chatbotSchedule->id) }}">
+                @csrf
+                @method('PUT')
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateModalTextWithEstimateLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="fieldText" class="form-label">New Value (Use [estimate_day] for estimated delivery time)</label>
+                        <textarea class="form-control me-2" id="fieldText" name="value" rows="3" required></textarea>
+                    </div>
+                    <div class="form-text">
+                        Tambahkan <strong>[estimate_day]</strong> untuk menyertakan waktu estimasi pengiriman.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- Modal Template File Upload -->
 <div class="modal fade" id="updateModalFile" tabindex="-1" aria-labelledby="updateModalFileLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -682,6 +711,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="fieldFile" class="form-label">Upload File</label>
+                        <input type="hidden" name="value" id="fieldHidden" value="">
                         <input type="file" class="form-control" id="fieldFile" name="value" accept="image/*">
                     </div>
                 </div>
@@ -699,6 +729,7 @@
         var updateModalNumber = document.getElementById('updateModalNumber');
         var updateModalSelect = document.getElementById('updateModalSelect');
         var updateModalText = document.getElementById('updateModalText');
+        var updateModalTextWithEstimate = document.getElementById('updateModalTextWithEstimate');
         var updateModalFile = document.getElementById('updateModalFile');
 
         updateModalNumber.addEventListener('show.bs.modal', function (event) {
@@ -771,15 +802,32 @@
             modalTitle.textContent = 'Update ' + fieldTitle;
         });
 
+        updateModalTextWithEstimate.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget; 
+            var fieldName = button.getAttribute('data-field-name');
+            var fieldTitle = button.getAttribute('data-field-title');
+            var fieldValue = button.getAttribute('data-field-value');
+
+            var fieldValueInput = updateModalTextWithEstimate.querySelector('#fieldText');
+            var modalTitle = updateModalTextWithEstimate.querySelector('#updateModalTextWithEstimateLabel');
+            
+            fieldValueInput.setAttribute('name', fieldName);
+            fieldValueInput.value = fieldValue || ''; 
+
+            modalTitle.textContent = 'Update ' + fieldTitle;
+        });
+
         updateModalFile.addEventListener('show.bs.modal', function (event) {
             var button = event.relatedTarget; 
             var fieldName = button.getAttribute('data-field-name');
             var fieldTitle = button.getAttribute('data-field-title');
 
             var fieldValueInput = updateModalFile.querySelector('#fieldFile');
+            var fieldValueHidden = updateModalFile.querySelector('#fieldHidden');
             var modalTitle = updateModalFile.querySelector('#updateModalFileLabel');
             
             fieldValueInput.setAttribute('name', fieldName);
+            fieldValueHidden.setAttribute('name', fieldName);
 
             modalTitle.textContent = 'Update ' + fieldTitle;
         });
