@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="bg-light p-5 rounded">
-    <h1>Daftar Awb</h1>
+    <h1>Daftar Order</h1>
 
     @if (session('success'))
         <div class="alert alert-success">
@@ -16,7 +16,7 @@
         </div>
     @endif
 
-    <form method="GET" action="{{ route('awbs.index') }}">
+    <form method="GET" action="{{ route('orders.index') }}">
         <div class="row mb-3">
             <div class="col">
                 <select name="customer_id" class="form-control">
@@ -29,17 +29,12 @@
                 </select>
             </div>
             <div class="col">
-                <select name="logistic_id" class="form-control">
-                    <option value="">Pilih Logistic</option>
-                    @foreach ($logistics as $logistic)
-                        <option value="{{ $logistic->id }}" {{ request('logistic_id') == $logistic->id ? 'selected' : '' }}>
-                            {{ $logistic->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col">
                 <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <a href="{{ route('orders.create') }}" class="btn btn-primary mb-3 mx-2">Add New Order</a>
             </div>
         </div>
     </form>
@@ -47,21 +42,29 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Awb Number</th>
                 <th>Customer</th>
+                <th>Whatsapp Number</th>
+                <th>Awb</th>
                 <th>Logistic</th>
-                <th>Last Awb Status</th>
-                <th>Last Awb Status Date</th>
+                <th>Status</th>
+                <th>From</th>
+                <th>Total Order</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($awbs as $awb)
+            @foreach ($orders as $order)
                 <tr>
-                    <td>{{ $awb->awb_number }}</td>
-                    <td>{{ $awb->customer ? $awb->customer->name : '-' }}</td>
-                    <td>{{ $awb->logistic ? $awb->logistic->name : '-' }}</td>
-                    <td>{{ $awb->last_awb_status ? $awb->last_awb_status : '-'}}</td>
-                    <td>{{ $awb->last_awb_status_date ? $awb->last_awb_status_date : '-'}}</td>
+                    <td>{{ $order->customer ? $order->customer->name : '-' }}</td>
+                    <td>{{ $order->customer ? $order->customer->whatsapp_number : '-' }}</td>
+                    <td>{{ $order->awb ? $order->awb->awb_number : '-' }}</td>
+                    <td>{{ $order->awb ? $order->awb->logistic->name : '-' }}</td>
+                    <td>{{ $order->status ? $order->status : '-'}}</td>
+                    <td>{{ $order->from ? $order->from : '-'}}</td>
+                    <td>{{ $order->total_order ? $order->total_order : '-'}}</td>
+                    <td>
+                        <a href="{{ route('orders.edit', $order->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
@@ -69,5 +72,5 @@
 </div>
 
     {{-- Menampilkan link pagination --}}
-    {{ $awbs->links() }}
+    {{ $orders->links() }}
 @endsection

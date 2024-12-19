@@ -64,10 +64,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::put('/chatbot-schedules/{chatbotSchedule}', 'ChatbotScheduleController@update')->name('chatbot-schedules.update');
 
         Route::get('/awbs', 'AwbController@index')->name('awbs.index');
-        Route::get('/awbs/create', 'AwbController@create')->name('awbs.create');
-        Route::post('/awbs', 'AwbController@store')->name('awbs.store');
-        Route::get('/awbs/{awb}/edit', 'AwbController@edit')->name('awbs.edit');
-        Route::put('/awbs/{awb}', 'AwbController@update')->name('awbs.update');
-        Route::delete('/awbs/{awb}', 'AwbController@destroy')->name('awbs.destroy');
+
+        Route::get('/orders', 'OrderController@index')->name('orders.index');
+        Route::get('/orders/create', 'OrderController@create')->name('orders.create');
+        Route::post('/orders', 'OrderController@store')->name('orders.store');
+        Route::get('/orders/{order}/edit', 'OrderController@edit')->name('orders.edit');
+        Route::put('/orders/{order}', 'OrderController@update')->name('orders.update');
+        Route::delete('/orders/{order}', 'OrderController@destroy')->name('orders.destroy');
     });
 });

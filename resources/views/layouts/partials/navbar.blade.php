@@ -13,6 +13,7 @@
             <li><a href="{{ route('customers.index') }}" class="nav-link px-2 text-white">Customer</a></li>
             <li><a href="{{ route('logistics.index') }}" class="nav-link px-2 text-white">Logistic</a></li>
             <li><a href="{{ route('awbs.index') }}" class="nav-link px-2 text-white">Awb</a></li>
+            <li><a href="{{ route('orders.index') }}" class="nav-link px-2 text-white">Order</a></li>
           </ul>
         @endif
       @endauth
