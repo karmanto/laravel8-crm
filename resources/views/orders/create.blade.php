@@ -24,24 +24,20 @@
         </div>
 
         <div class="mb-3">
-            <label for="status" class="form-label">Status</label>
-            <input type="text" name="status" id="status" class="form-control @error('status') is-invalid @enderror" value="{{ old('status') }}">
-            @error('status')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-            @enderror
-        </div>
-
-        <div class="mb-3">
             <label for="from" class="form-label">From</label>
-            <input type="text" name="from" id="from" class="form-control @error('from') is-invalid @enderror" value="{{ old('from') }}">
+            <select name="from" id="from" class="form-control @error('from') is-invalid @enderror">
+                <option value="">Pilih Platform</option>
+                <option value="whatsapp" {{ old('from') == 'whatsapp' ? 'selected' : '' }}>WhatsApp</option>
+                <option value="tiktok" {{ old('from') == 'tiktok' ? 'selected' : '' }}>TikTok</option>
+                <option value="shopee" {{ old('from') == 'shopee' ? 'selected' : '' }}>Shopee</option>
+                <option value="tokopedia" {{ old('from') == 'tokopedia' ? 'selected' : '' }}>Tokopedia</option>
+            </select>
             @error('from')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
             @enderror
-        </div>
+        </div>        
 
         <div class="mb-3">
             <label for="total_order" class="form-label">Total Order</label>
