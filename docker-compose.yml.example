@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db:
-    image: mysql:latest
+    image: mysql:8.0
     container_name: crm-laravel
     environment:
       MYSQL_DATABASE: crm
@@ -13,6 +13,7 @@ services:
       - db_data:/var/lib/mysql
     ports:
       - "3306:3306"
+    restart: unless-stopped
 
 volumes:
   db_data:
