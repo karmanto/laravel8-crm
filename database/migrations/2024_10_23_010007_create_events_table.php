@@ -13,6 +13,8 @@ class CreateEventsTable extends Migration
             $table->foreignId('customer_id')->constrained()->onDelete('restrict');
             $table->string('status')->comment(
                 'new customer, 
+                fu1, 
+                fu2, 
                 fu3, 
                 fu7,
                 fu14, 

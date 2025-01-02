@@ -33,6 +33,8 @@ class ChatbotScheduleController extends Controller
                 Rule::exists('chatbot_whatsapps', 'id')->where('user_id', auth()->id()),
             ],
             'trigger_new_customer' => 'sometimes|string',
+            'message_fu1' => 'sometimes|string',
+            'message_fu2' => 'sometimes|string',
             'message_fu3' => 'sometimes|string',
             'message_fu7' => 'sometimes|string',
             'message_fu14' => 'sometimes|string',
@@ -73,6 +75,8 @@ class ChatbotScheduleController extends Controller
         }
 
         $documentTypes = [
+            'fu1_doc',
+            'fu2_doc',
             'fu3_doc',
             'fu7_doc',
             'fu14_doc',

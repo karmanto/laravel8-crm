@@ -26,11 +26,15 @@
         'chatbot' => ['chatbot_closing', 'chatbot_repeat'],
         'trigger' => ['trigger_new_customer', 'trigger_order', 'name_pattern', 'awb_pattern', 'logistic_pattern', 'age_pattern', 'address_pattern', 'trigger_update_awb', 'total_order_pattern'],
         'followUp' => [
+            'message_fu1', 
+            'message_fu2', 
             'message_fu3', 
             'message_fu7', 
             'message_fu14', 
             'message_fu21', 
             'message_fu25', 
+            'fu1_doc', 
+            'fu2_doc', 
             'fu3_doc', 
             'fu7_doc', 
             'fu14_doc', 
@@ -386,6 +390,8 @@
                     <tbody>
                         @php
                             $followUps = [
+                                ['day' => 'H+1', 'message' => 'message_fu1', 'imageType' => 'fu1_doc'],
+                                ['day' => 'H+2', 'message' => 'message_fu2', 'imageType' => 'fu2_doc'],
                                 ['day' => 'H+3', 'message' => 'message_fu3', 'imageType' => 'fu3_doc'],
                                 ['day' => 'H+7', 'message' => 'message_fu7', 'imageType' => 'fu7_doc'],
                                 ['day' => 'H+14', 'message' => 'message_fu14', 'imageType' => 'fu14_doc'],

@@ -17,6 +17,8 @@ class ChatbotSchedule extends Model
         'chatbot_closing',
         'chatbot_repeat',
         'trigger_new_customer',
+        'message_fu1',
+        'message_fu2',
         'message_fu3',
         'message_fu7',
         'message_fu14',
