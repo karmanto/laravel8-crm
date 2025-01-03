@@ -13,24 +13,42 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-        $customers = Customer::where('user_id', $user->id)->get();
+
+        if ($request->filled('customer_id')) {
+            $customers = Customer::where('user_id', $user->id)
+            ->where('id', $request->customer_id)
+            ->select('id', 'whatsapp_number', 'name') 
+            ->get();
+        } else {
+            $customers = Customer::where('user_id', $user->id)
+            ->select('id', 'whatsapp_number', 'name') 
+            ->get();
+        }
+
         $logistics = Logistic::all();
         $customerIds = $customers->pluck('id')->toArray();
         $query = Order::whereIn('customer_id', $customerIds);
-
-        if ($request->filled('customer_id')) {
-            $query->where('customer_id', $request->customer_id);
-        }
 
         $orders = $query->paginate(25);
 
         return view('orders.index', compact('orders', 'customers', 'logistics'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $user = auth()->user();
-        $customers = Customer::where('user_id', $user->id)->get();
+
+        if ($request->filled('customer_id')) {
+            $customers = Customer::where('user_id', $user->id)
+            ->where('id', $request->customer_id)
+            ->select('id', 'whatsapp_number', 'name') 
+            ->get();
+        } else {
+            $customers = Customer::where('user_id', $user->id)
+            ->select('id', 'whatsapp_number', 'name') 
+            ->get();
+        }
+
         $logistics = Logistic::all();
 
         return view('orders.create', compact('customers', 'logistics'));
@@ -71,10 +89,15 @@ class OrderController extends Controller
         $this->authorize('update', $order);
 
         $user = auth()->user();
-        $customers = Customer::where('user_id', $user->id)->get();
+
+        $customer = Customer::where('user_id', $user->id)
+            ->where('id', $order->customer_id) 
+            ->select('id', 'whatsapp_number', 'name')
+            ->firstOrFail();
+
         $logistics = Logistic::all();
 
-        return view('orders.edit', compact('order', 'customers', 'logistics'));
+        return view('orders.edit', compact('order', 'customer', 'logistics'));
     }
 
     public function update(Request $request, Order $order)

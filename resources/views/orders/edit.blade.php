@@ -10,19 +10,8 @@
 
         <div class="mb-3">
             <label for="customer_id" class="form-label">Customer</label>
-            <select name="customer_id" id="customer_id" class="form-control @error('customer_id') is-invalid @enderror">
-                <option value="">Pilih Customer</option>
-                @foreach ($customers as $customer)
-                    <option value="{{ $customer->id }}" {{ old('customer_id', $order->customer_id) == $customer->id ? 'selected' : '' }}>
-                        {{ $customer->name }}
-                    </option>
-                @endforeach
-            </select>
-            @error('customer_id')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-            @enderror
+            <input type="text" class="form-control" value="{{ $customer->name }}" disabled>
+            <input type="hidden" name="customer_id" value="{{ $customer->id }}">
         </div>
 
         <div class="mb-3">
@@ -52,7 +41,6 @@
         </div>
 
         @if ($order->awb)
-            <!-- AWB Number and Logistic always shown if already exists -->
             <div class="mb-3">
                 <label for="awb_number" class="form-label">AWB Number</label>
                 <input type="text" name="awb_number" id="awb_number" class="form-control @error('awb_number') is-invalid @enderror" value="{{ old('awb_number', $order->awb->awb_number) }}">
@@ -80,7 +68,6 @@
                 @enderror
             </div>
         @else
-            <!-- Checkbox to toggle AWB Number and Logistic -->
             <div class="mb-3">
                 <input type="checkbox" id="toggle_awb_logistic" class="form-check-input" 
                        onclick="toggleAwbLogistic()" 

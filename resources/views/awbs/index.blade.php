@@ -19,16 +19,6 @@
     <form method="GET" action="{{ route('awbs.index') }}">
         <div class="row mb-3">
             <div class="col">
-                <select name="customer_id" class="form-control">
-                    <option value="">Pilih Customer</option>
-                    @foreach ($customers as $customer)
-                        <option value="{{ $customer->id }}" {{ request('customer_id') == $customer->id ? 'selected' : '' }}>
-                            {{ $customer->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col">
                 <select name="logistic_id" class="form-control">
                     <option value="">Pilih Logistic</option>
                     @foreach ($logistics as $logistic)

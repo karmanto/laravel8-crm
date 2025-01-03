@@ -16,29 +16,6 @@
         </div>
     @endif
 
-    <form method="GET" action="{{ route('orders.index') }}">
-        <div class="row mb-3">
-            <div class="col">
-                <select name="customer_id" class="form-control">
-                    <option value="">Pilih Customer</option>
-                    @foreach ($customers as $customer)
-                        <option value="{{ $customer->id }}" {{ request('customer_id') == $customer->id ? 'selected' : '' }}>
-                            {{ $customer->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col">
-                <button type="submit" class="btn btn-primary">Filter</button>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col">
-                <a href="{{ route('orders.create') }}" class="btn btn-primary mb-3 mx-2">Add New Order</a>
-            </div>
-        </div>
-    </form>
-
     <table class="table">
         <thead>
             <tr>

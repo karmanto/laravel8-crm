@@ -9,9 +9,8 @@
         <div class="mb-3">
             <label for="customer_id" class="form-label">Customer</label>
             <select name="customer_id" id="customer_id" class="form-control @error('customer_id') is-invalid @enderror">
-                <option value="">Pilih Customer</option>
                 @foreach ($customers as $customer)
-                    <option value="{{ $customer->id }}" {{ old('customer_id') == $customer->id ? 'selected' : '' }}>
+                    <option value="{{ $customer->id }}" {{ old('customer_id', $customers->first()->id) == $customer->id ? 'selected' : '' }}>
                         {{ $customer->name }}
                     </option>
                 @endforeach
@@ -21,7 +20,7 @@
                     {{ $message }}
                 </div>
             @enderror
-        </div>
+        </div>        
 
         <div class="mb-3">
             <label for="from" class="form-label">From</label>

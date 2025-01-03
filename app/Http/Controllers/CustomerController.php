@@ -12,6 +12,14 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         $query = Customer::where('user_id', Auth::id());
+        
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('whatsapp_number', 'like', "%{$search}%");
+            });
+        }
 
         $customers = $query->paginate(10);
 

@@ -18,11 +18,21 @@
 
     <form method="GET" action="{{ route('customers.index') }}">
         <div class="row mb-3">
+            <div class="col-md-8">
+                <input type="text" name="search" class="form-control" placeholder="Cari nama atau nomor WhatsApp..." value="{{ request('search') }}">
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+
+        <div class="row mb-3">
             <div class="col">
                 <a href="{{ route('customers.create') }}" class="btn btn-primary mb-3">Add New Customer</a>
             </div>
         </div>
     </form>
+    
 
     <table class="table">
         <thead>
@@ -45,6 +55,9 @@
                     <td>{{ $customer->is_exception ? 'Yes' : 'No' }}</td>
                     <td>
                         <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{{ route('orders.index', ['customer_id' => $customer->id]) }}" class="btn btn-sm btn-info">View Order</a>
+                        <a href="{{ route('orders.create', ['customer_id' => $customer->id]) }}" class="btn btn-sm btn-success">Create Order</a>
+                        <a href="{{ route('awbs.index', ['customer_id' => $customer->id]) }}" class="btn btn-sm btn-primary">View AWB</a>
                     </td>
                 </tr>
             @endforeach

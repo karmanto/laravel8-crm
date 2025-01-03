@@ -12,7 +12,18 @@ class AwbController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-        $customers = Customer::where('user_id', $user->id)->get();
+        
+        if ($request->filled('customer_id')) {
+            $customers = Customer::where('user_id', $user->id)
+            ->where('id', $request->customer_id)
+            ->select('id', 'whatsapp_number', 'name') 
+            ->get();
+        } else {
+            $customers = Customer::where('user_id', $user->id)
+            ->select('id', 'whatsapp_number', 'name') 
+            ->get();
+        }
+
         $logistics = Logistic::all();
         $customerIds = $customers->pluck('id')->toArray();
         $query = Awb::whereIn('customer_id', $customerIds);
